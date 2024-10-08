@@ -13,22 +13,16 @@ function NavBar() {
   const navigate = useNavigate();
   const theCurrentUser = useSelector((state) => state.user);
   const [showLogin, setShowLogin] = useState(false);
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     dispatch(showUserName());
-    // if (theCurrentUser) {
-    //   //setIsLoggedIn(true);
-    // }
   }, [dispatch]);
 
   const logForm = () => {
     setShowLogin(true);
-    //setIsLoggedIn(true);
   };
 
   const isLoggedOut = () => {
-    //setIsLoggedIn(false);
     setShowLogin(false);
     dispatch(logOutUser());
     navigate("/");
@@ -63,7 +57,7 @@ function NavBar() {
                   Dashboard
                 </Button>
                 <Button variant="dark" onClick={isLoggedOut}>
-                  logout
+                  Logout
                 </Button>
               </>
             ) : (

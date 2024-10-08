@@ -10,7 +10,6 @@ function Login() {
 
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  // const [goToLesson, setGoToLesson] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,23 +23,20 @@ function Login() {
     dispatch(loginUser(user));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (theCurrentUser) {
-    if (theCurrentUser.role === "student") {
-      navigate("/studentDashBoard");
-      window.location.reload();
-      //setGoToLesson(true);
-    } else if (theCurrentUser.role === "admin") {
-      navigate("/adminDashBoard");
-      window.location.reload();
+      if (theCurrentUser.role === "student") {
+        navigate("/studentDashBoard");
+        window.location.reload();
+      } else if (theCurrentUser.role === "admin") {
+        navigate("/adminDashBoard");
+        window.location.reload();
+      }
     }
-    }
-  }, [theCurrentUser , navigate])
-  
+  }, [theCurrentUser, navigate]);
 
   return (
     <>
-      {/* {!goToLesson && ( */}
       <Form style={{ margin: 150 }}>
         <Form.Label style={{ fontWeight: "bold" }}> User name </Form.Label>
         <Form.Control
@@ -58,7 +54,6 @@ function Login() {
           login
         </Button>
       </Form>
-      {/* )} */}
     </>
   );
 }
