@@ -1,49 +1,64 @@
-import { useDispatch } from "react-redux";
-import { loginStudent } from "../Redux/action";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../Redux/action";
+import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [studentName, setStudentName] = useState("");
-  const [password, setPassword] = useState("");
-  const [goToLesson, setGoToLesson] = useState(false);
+  const theCurrentUser = useSelector((state) => state.user);
+
+  const [userName, setUserName] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  // const [goToLesson, setGoToLesson] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const newStudent = (e) => {
+
+  const newUser = (e) => {
     e.preventDefault();
-    const student = {
-      studentName: studentName,
-      studentPassword: password,
+    const user = {
+      userName: userName,
+      userPassword: userPassword,
     };
-    dispatch(loginStudent(student));
-    navigate("/studentDashBoard");
-    setGoToLesson(true);
+
+    dispatch(loginUser(user));
   };
+
+  useEffect(()=>{
+    if (theCurrentUser) {
+    if (theCurrentUser.role === "student") {
+      navigate("/studentDashBoard");
+      window.location.reload();
+      //setGoToLesson(true);
+    } else if (theCurrentUser.role === "admin") {
+      navigate("/adminDashBoard");
+      window.location.reload();
+    }
+    }
+  }, [theCurrentUser , navigate])
+  
 
   return (
     <>
-      {!goToLesson && (
-        <Form style={{ margin: 180 }}>
-          <Form.Label style={{ fontWeight: "bold" }}> User name </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your name"
-            onChange={(e) => setStudentName(e.target.value)}
-          />
-          <Form.Label style={{ fontWeight: "bold" }}>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <Button variant="primary" type="submit" onClick={newStudent}>
-            login
-          </Button>
-        </Form>
-      )}
+      {/* {!goToLesson && ( */}
+      <Form style={{ margin: 150 }}>
+        <Form.Label style={{ fontWeight: "bold" }}> User name </Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter your name"
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <Form.Label style={{ fontWeight: "bold" }}>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setUserPassword(e.target.value)}
+        />
+        <Button variant="primary" type="submit" onClick={newUser}>
+          login
+        </Button>
+      </Form>
+      {/* )} */}
     </>
   );
 }

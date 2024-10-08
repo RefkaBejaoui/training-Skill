@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import Login from "./Login";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutStudent, showStudentName } from "../Redux/action";
+import { logOutUser, showUserName } from "../Redux/action";
 import { useNavigate } from "react-router-dom";
 
 function NavBar() {
@@ -13,23 +13,24 @@ function NavBar() {
   const navigate = useNavigate();
   const theCurrentUser = useSelector((state) => state.user);
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    dispatch(showStudentName());
-    if (theCurrentUser) { setIsLoggedIn(true)};
-  }, [dispatch, theCurrentUser]);
+    dispatch(showUserName());
+    // if (theCurrentUser) {
+    //   //setIsLoggedIn(true);
+    // }
+  }, [dispatch]);
 
   const logForm = () => {
     setShowLogin(true);
-
     //setIsLoggedIn(true);
   };
 
   const isLoggedOut = () => {
-    setIsLoggedIn(false);
+    //setIsLoggedIn(false);
     setShowLogin(false);
-    dispatch(logOutStudent());
+    dispatch(logOutUser());
     navigate("/");
   };
 
@@ -37,9 +38,14 @@ function NavBar() {
     setShowLogin(false);
     navigate("/");
   };
-  // const toDashboard = () => {
-  //   navigate("/dashBoard");
-  // };
+
+  const goTODashBoard = () => {
+    if (theCurrentUser.role === "admin") {
+      navigate("/adminDashBoard");
+    } else {
+      navigate("/studentDashBoard");
+    }
+  };
 
   return (
     <>
@@ -47,25 +53,26 @@ function NavBar() {
         <Container>
           <Navbar.Brand>Health Care Training</Navbar.Brand>
           <Nav className="me-auto">
-
             <Button variant="dark" onClick={goToHomePage}>
               HomePage
             </Button>
-            {/* {theCurrentUser && (
-              <Button variant="dark" onClick={toDashboard}>
-                Dashboard
-              </Button>)} */}
-            
-            {isLoggedIn ? (
-              <Button variant="dark" onClick={isLoggedOut}>
-                logout
-              </Button>
+
+            {theCurrentUser ? (
+              <>
+                <Button variant="dark" onClick={goTODashBoard}>
+                  Dashboard
+                </Button>
+                <Button variant="dark" onClick={isLoggedOut}>
+                  logout
+                </Button>
+              </>
             ) : (
-              !showLogin && (
-              <Button variant="dark" onClick={logForm}>
-                Login
-              </Button> )
-             )} 
+              !theCurrentUser && (
+                <Button variant="dark" onClick={logForm}>
+                  Login
+                </Button>
+              )
+            )}
           </Nav>
         </Container>
         <h6 style={{ color: "white" }}>

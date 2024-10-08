@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken")
-const Student = require("../models/studentSchema")
+const User = require("../models/userSchema")
 
 
 const authorized = async (req,res , next) => {
@@ -9,9 +9,9 @@ const authorized = async (req,res , next) => {
     }
     else {
         const verifiedToken = await JWT.verify(token, "kkjdchlsdcb" )
-    const student = await Student.findById(verifiedToken.id)
-    if(student) {
-        req.student = student
+    const user = await User.findById(verifiedToken.id)
+    if(user) {
+        req.user = user
         next();
     }
     }

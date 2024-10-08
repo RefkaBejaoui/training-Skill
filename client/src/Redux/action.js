@@ -1,56 +1,56 @@
 import {
-  DELETE_STUDENT,
+  DELETE_USER,
   GET_COURSES,
-  LOG_OUT_STUDENT,
-  LOGIN_STUDENT,
-  REGISTER_STUDENT,
-  SHOW_STUDENT_NAME,
+  LOG_OUT_USER,
+  LOGIN_USER,
+  REGISTER_USER,
+  SHOW_USER_NAME,
 } from "./actionTypes";
 import axios from "axios";
 
-export const registerStudent = (newStudent) => async (dispatch) => {
+export const registerUser = (newUser) => async (dispatch) => {
   try {
-    const res = await axios.post("/admin/registerStudent", newStudent);
-    dispatch({ type: REGISTER_STUDENT, payload: res.data });
+    const res = await axios.post("/user/registerUser", newUser);
+    dispatch({ type: REGISTER_USER, payload: res.data });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const loginStudent = (student) => async (dispatch) => {
+export const loginUser = (user) => async (dispatch) => {
   try {
-    const res = await axios.post("/student/loginStudent", student);
-    dispatch({ type: LOGIN_STUDENT, payload: res.data });
+    const res = await axios.post("/user/loginUser", user);
+    dispatch({ type: LOGIN_USER, payload: res.data });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const deleteStudent = (studentId) => async (dispatch) => {
+export const deleteUser = (userId) => async (dispatch) => {
   try {
-    await axios.delete(`/admin/deleteStudent/:${studentId}`);
-    dispatch({ type: DELETE_STUDENT, payload: studentId });
+    await axios.delete(`/user/deleteUser/:${studentId}`);
+    dispatch({ type: DELETE_USER, payload: userId });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const showStudentName = () => async (dispatch) => {
+export const showUserName = () => async (dispatch) => {
   try {
     const config = {
       headers: {
         autorisation: localStorage.getItem("token"),
       },
     };
-    const res = await axios.get("student/authorizedStudent", config);
-    dispatch({ type: SHOW_STUDENT_NAME, payload: res.data });
+    const res = await axios.get("/user/authorized", config);
+    dispatch({ type: SHOW_USER_NAME, payload: res.data });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const logOutStudent = () => (dispatch) => {
-  dispatch({ type: LOG_OUT_STUDENT });
+export const logOutUser = () => (dispatch) => {
+  dispatch({ type: LOG_OUT_USER });
 };
 
 export const getCourses = () => async (dispatch) => {
