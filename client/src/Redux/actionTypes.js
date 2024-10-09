@@ -7,3 +7,4 @@ export const LOGIN_USER = "LOGIN_USER";
 export const LOG_OUT_USER = "LOG_OUT_USER"
 export const SHOW_USER_NAME = "SHOW_USER_NAME"
 export const GET_COURSES = "GET_COURSES"
+export const GET_STUDENTS = "GET_STUDENTS"

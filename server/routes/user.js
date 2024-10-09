@@ -153,4 +153,14 @@ router.get("/getAllCourses", async (req, res) => {
   }
 });
 
+router.get("/getStudents", async (req, res) => {
+  try {
+    const user = await User.find({ role: "student" });
+    res.send({ msg: "this are all the users", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "An error in getting students", error });
+  }
+});
+
 module.exports = router;

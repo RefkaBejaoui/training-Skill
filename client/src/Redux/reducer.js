@@ -1,16 +1,19 @@
 import {
   DELETE_USER,
   GET_COURSES,
+  GET_STUDENTS,
   LOG_OUT_USER,
   LOGIN_USER,
   REGISTER_USER,
   SHOW_USER_NAME,
+  UPDATE_USER,
 } from "./actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
-  user: null,
+  user: [],
   cours: [],
+  student: []
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,6 +39,10 @@ const reducer = (state = initialState, action) => {
     case LOG_OUT_USER:
       localStorage.removeItem("token");
       return { ...state, user: null, token: null };
+    case UPDATE_USER:
+      return { ...state, user: action.payload };
+    case GET_STUDENTS :
+      return { ...state, student: action.payload.user};
     case GET_COURSES:
       return { ...state, cours: action.payload.courses };
     default:
