@@ -1,4 +1,6 @@
 import {
+  ADD_COURSE,
+  DELETE_COURSE,
   DELETE_USER,
   GET_COURSES,
   GET_STUDENTS,
@@ -6,14 +8,15 @@ import {
   LOGIN_USER,
   REGISTER_USER,
   SHOW_USER_NAME,
+  UPDATE_COURSE,
   UPDATE_USER,
 } from "./actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
   user: [],
-  cours: [],
-  student: []
+  course: [],
+  student: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -41,10 +44,19 @@ const reducer = (state = initialState, action) => {
       return { ...state, user: null, token: null };
     case UPDATE_USER:
       return { ...state, user: action.payload };
-    case GET_STUDENTS :
-      return { ...state, student: action.payload.user};
+    case GET_STUDENTS:
+      return { ...state, student: action.payload.user };
     case GET_COURSES:
-      return { ...state, cours: action.payload.courses };
+      return { ...state, course: action.payload.courses };
+    case ADD_COURSE:
+      return { ...state, course: action.payload.newCourse };
+    case DELETE_COURSE:
+      return {
+        ...state,
+        course: state.course.filter((course) => course._id !== action.payload),
+      };
+    case UPDATE_COURSE:
+      return { ...state, course: action.payload };
     default:
       return state;
   }

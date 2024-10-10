@@ -11,6 +11,7 @@ import CourseList from "./Components/CourseList";
 import CheckPointList from "./Components/CheckPointList";
 import UpdateUser from "./Components/UpdateUser";
 import AddUser from "./Components/AddUser"
+import AddCourse from "./Components/AddCourse"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/adminDashBoard/courseList" element={<CourseList />} />
           <Route path="/adminDashBoard/checkPointList" element={<CheckPointList />}/>
           <Route path="/adminDashBoard/studentList/addUser"  element={<AddUser/>}/>
+          <Route path="/adminDashBoard/courseList/addCourse" element={<AddCourse/>}/>
         </Route>
 
         <Route path="/studentDashBoard" element={<StudentDashBoard />} />

@@ -1,4 +1,6 @@
 import {
+  ADD_COURSE,
+  DELETE_COURSE,
   DELETE_USER,
   GET_COURSES,
   GET_STUDENTS,
@@ -6,10 +8,9 @@ import {
   LOGIN_USER,
   REGISTER_USER,
   SHOW_USER_NAME,
+  UPDATE_COURSE,
   UPDATE_USER,
 } from "./actionTypes";
-
-
 
 import axios from "axios";
 
@@ -58,14 +59,14 @@ export const logOutUser = () => (dispatch) => {
   dispatch({ type: LOG_OUT_USER });
 };
 
-export const updateUser = (userId, newUser) => async(dispatch)=>{
-try {
-  const res = await axios.put(`/user/updateUser/${userId}`, newUser);
-  dispatch({ type : UPDATE_USER , payload: res.data});
-} catch (error) {
-  console.log(error)
-}
-}
+export const updateUser = (userId, newUser) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/user/updateUser/${userId}`, newUser);
+    dispatch({ type: UPDATE_USER, payload: res.data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getStudents = () => async (dispatch) => {
   try {
@@ -76,13 +77,38 @@ export const getStudents = () => async (dispatch) => {
   }
 };
 
-
-
 export const getCourses = () => async (dispatch) => {
   try {
-    const res = await axios.get("/student/getAllCourses");
+    const res = await axios.get("/user/getAllCourses");
     dispatch({ type: GET_COURSES, payload: res.data });
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const addCourse = (newCourse) => async (dispatch) => {
+  try {
+    const res = await axios.post("/user/addCourse", newCourse);
+    dispatch({ type: ADD_COURSE, payload: res.data });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteCourse = (courseId) => async (dispatch) => {
+  try {
+    await axios.delete(`/user/deleteCourse/${courseId}`);
+    dispatch({ type: DELETE_COURSE, payload: courseId });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateCourse = (courseId, newCourse) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/user/updateCourse/${courseId}`, newCourse);
+    dispatch({ type: UPDATE_COURSE, payload: res.data });
+  } catch (error) {
+    console.log(error);
   }
 };

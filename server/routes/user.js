@@ -163,4 +163,48 @@ router.get("/getStudents", async (req, res) => {
   }
 });
 
+router.delete("/deleteCourse/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedCourse = await Course.findByIdAndDelete(id);
+    if (!deletedCourse) {
+      return res.status(404).send({ msg: "course to delete is not found" });
+    }
+    res.send({ msg: "course deleted", deletedCourse });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/addCourse", async (req, res) => {
+  try {
+    const { title, lesson, video, image } = req.body;
+    const newCourse = new Course({
+      title: title,
+      lesson: lesson,
+      video: video,
+      image: image,
+    });
+    await newCourse.save();
+    res.send({ msg: "course added successfully", newCourse });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.put("/updateCourse/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { title, lesson, video, image } = req.body;
+    const finalCorse = await Course.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true }
+    );
+    res.send({ msg: "the course is updated with sucess", finalCorse });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 module.exports = router;

@@ -29,13 +29,17 @@ function StudentList() {
   return (
     <>
       <h1>student list</h1>
+      <Button variant="outline-dark" onClick={ajouter}>
+        Add student
+      </Button>
+      <hr/>
       <Table striped bordered hover size="sm">
         <thead>
           <tr>
             <th>#</th>
             <th>Student</th>
             <th>Delete student</th>
-            <th>Edit</th>
+            <th>Edit student</th>
           </tr>
         </thead>
         <tbody>
@@ -65,9 +69,7 @@ function StudentList() {
             })}
         </tbody>
       </Table>
-      <Button variant="outline-dark" onClick={ajouter}>
-        Add
-      </Button>
+      
     </>
   );
 }

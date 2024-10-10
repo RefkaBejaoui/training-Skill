@@ -38,15 +38,20 @@ function UpdateUser({ id ,userName, userPassword }) {
 
   const editUser = (e) => {
     e.preventDefault();
-
-    dispatch(updateUser(id ,{userName , userPassword}));
+    const updatedUser = {
+      id,
+      userName: NewUserName,
+      userPassword: NewUserPassword,
+    };
+    dispatch(updateUser(id ,updatedUser));
+    window.location.reload();
     closeModal();
   };
   return (
     <>
       <div>
 
-        <Button variant="outline-dark" onClick={openModal}>Edit</Button>
+        <Button variant="outline-success" onClick={openModal}>Edit</Button>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -70,7 +75,7 @@ function UpdateUser({ id ,userName, userPassword }) {
               onChange={(e) => setNewUserPassword(e.target.value)}
             />
            
-            <Button variant="outline-dark" onClick={editUser}>Edit user</Button>
+            <Button variant="outline-success" onClick={editUser}>Edit user</Button>
           </form>
           <Button variant="outline-dark" onClick={closeModal}>close</Button>
         </Modal>

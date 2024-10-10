@@ -42,3 +42,14 @@
   cursor: pointer;
   color : white
 }
+@keyframes shake {
+ 
+  20% { transform: translateX(10px); }
+  30% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+
+}
+
+.shake {
+  animation: shake 0.5s;
+}
