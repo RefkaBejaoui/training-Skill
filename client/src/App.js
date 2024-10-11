@@ -12,6 +12,7 @@ import CheckPointList from "./Components/CheckPointList";
 import UpdateUser from "./Components/UpdateUser";
 import AddUser from "./Components/AddUser"
 import AddCourse from "./Components/AddCourse"
+import CourseLayOut from "./Components/CourseLayOut";
 
 function App() {
   return (
@@ -29,7 +30,11 @@ function App() {
           <Route path="/adminDashBoard/courseList/addCourse" element={<AddCourse/>}/>
         </Route>
 
-        <Route path="/studentDashBoard" element={<StudentDashBoard />} />
+        <Route path="/studentDashBoard" element={<StudentDashBoard />} >
+        <Route path="/studentDashBoard/courseList" element={<CourseList />}/>
+<Route path="/studentDashBoard/courseList/:id" element = {<CourseLayOut/>} />
+
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<HomePage />} />
 

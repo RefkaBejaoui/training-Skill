@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addCourse } from "../Redux/action";
 import { useState } from "react";
+import axios from "axios";
 
 function AddCourse() {
   const [title, setTitle] = useState("");
@@ -11,13 +12,35 @@ function AddCourse() {
   const [video, setVideo] = useState("");
   const [image, setImage] = useState("");
   const [shake, setShake] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const uploadImageCourse = (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("image", file);
+    setUploading(true);
+    axios
+      .post("/course/upload", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setImage(res.data);
+        setUploading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUploading(false);
+      });
+  };
+
   const AddNewCourse = (e) => {
     e.preventDefault();
-    if (!lesson  && !title && !video && !image) {
+    if (!lesson && !title && !video && !image) {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
@@ -44,28 +67,44 @@ function AddCourse() {
           placeholder="Title of the course"
           onChange={(e) => setTitle(e.target.value)}
         />
+        <hr></hr>
         <Form.Label style={{ fontWeight: "bold" }}>Lesson</Form.Label>
-        <Form.Control
+        <textarea
+          rows="4"
+          cols="50"
           type="text"
           placeholder="lesson of the course"
           onChange={(e) => setLesson(e.target.value)}
-         
-        />
+        ></textarea>
         <Form.Label style={{ fontWeight: "bold" }}>video</Form.Label>
         <Form.Control
           type="text"
           placeholder="video"
           onChange={(e) => setVideo(e.target.value)}
-     
         />
 
-<Form.Label style={{ fontWeight: "bold" }}>image</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="image"
-          onChange={(e) => setImage(e.target.value)}
-     
-        />
+        <Form.Label style={{ fontWeight: "bold" }}>image</Form.Label>
+        {image ? (
+                  <img
+                    src={image}
+                    width="100%"
+                    style={{ margin: "8px 0" }}
+                    height="150px"
+                    alt="product"
+                  />
+                ) : (
+                  <div style={{ margin: "8px 0" }}>
+                    {!uploading ? "Upload Image For course" : "Loading ..."}
+                  </div>
+                )}
+                <div>
+                  Select picture
+                  <input
+                    accept="image/*"
+                    type="file"
+                    onChange={uploadImageCourse}
+                  />
+                </div>
         <Button
           variant="outline-dark"
           type="submit"

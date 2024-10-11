@@ -24,9 +24,9 @@ function UpdateCourse({ id, title, lesson, video, image }) {
   const [NewVideo, setNewVideo] = useState(video);
   const [NewImage, setNewImage] = useState(image);
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const theCourse = useSelector((state)=>state.course);
-  console.log(theCourse)
- 
+  const theCourse = useSelector((state) => state.course);
+  console.log(theCourse);
+
   const dispatch = useDispatch();
 
   function openModal() {
@@ -44,13 +44,13 @@ function UpdateCourse({ id, title, lesson, video, image }) {
   const editCourse = (e) => {
     e.preventDefault();
     const updatedCourse = {
-        id,
-        title: NewTitle,
-        lesson: NewLesson,
-        video: NewVideo,
-        image: NewImage,
-      };
-    dispatch(updateCourse( id,updatedCourse));
+      id,
+      title: NewTitle,
+      lesson: NewLesson,
+      video: NewVideo,
+      image: NewImage,
+    };
+    dispatch(updateCourse(id, updatedCourse));
     window.location.reload();
     closeModal();
   };
@@ -71,34 +71,43 @@ function UpdateCourse({ id, title, lesson, video, image }) {
 
           <form>
             <label>New title </label>
+            <br></br>
             <input
+              size="45"
               placeholder="title"
               type="text"
               value={NewTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-            /> <br></br>
-            <label>New lesson </label>
-            <input
+            />{" "}
+            <br></br>
+            <label>New lesson </label> <br></br>
+            <textarea
+              rows="4"
+              cols="50"
               placeholder="lesson"
               type="text"
               value={NewLesson}
               onChange={(e) => setNewLesson(e.target.value)}
-            /><br></br>
-            <label>New video </label>
+            ></textarea>
+            <br></br>
+            <label>New video </label> <br></br>
             <input
+              size="45"
               placeholder="video"
               type="text"
               value={NewVideo}
               onChange={(e) => setNewVideo(e.target.value)}
-            /><br></br>
-            <label>New image</label>
+            />
+            <br></br>
+            <label>New image</label> <br></br>
             <input
+              size="45"
               placeholder="image"
               type="text"
               value={NewImage}
               onChange={(e) => setNewImage(e.target.value)}
             />
-
+            <br></br>
             <Button variant="outline-success" onClick={editCourse}>
               Edit course{" "}
             </Button>

@@ -9,3 +9,4 @@ export const GET_STUDENTS = "GET_STUDENTS";
 export const DELETE_COURSE = "DELETE_COURSE";
 export const UPDATE_COURSE = "UPDATE_COURSE";
 export const ADD_COURSE = "ADD_COURSE";
+export const SET_COURSE_IMAGE ="SET_COURSE_IMAGE"

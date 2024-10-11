@@ -17,7 +17,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function UpdateUser({ id ,userName, userPassword }) {
+function UpdateUser({ id, userName, userPassword }) {
   let subtitle;
   const [NewUserName, setNewUserName] = useState(userName);
   const [NewUserPassword, setNewUserPassword] = useState(userPassword);
@@ -43,15 +43,16 @@ function UpdateUser({ id ,userName, userPassword }) {
       userName: NewUserName,
       userPassword: NewUserPassword,
     };
-    dispatch(updateUser(id ,updatedUser));
+    dispatch(updateUser(id, updatedUser));
     window.location.reload();
     closeModal();
   };
   return (
     <>
       <div>
-
-        <Button variant="outline-success" onClick={openModal}>Edit</Button>
+        <Button variant="outline-success" onClick={openModal}>
+          Edit
+        </Button>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -62,22 +63,28 @@ function UpdateUser({ id ,userName, userPassword }) {
           <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Edit user</h2>
 
           <form>
-            <label  >New user name </label>
-          <input placeholder = "name"
+            <label>New user name </label>
+            <input
+              placeholder="name"
               type="text"
               value={NewUserName}
               onChange={(e) => setNewUserName(e.target.value)}
-            /> 
-            <label  >New user password </label>
-          <input placeholder = "password"
+            />
+            <label>New user password </label>
+            <input
+              placeholder="password"
               type="text"
               value={NewUserPassword}
               onChange={(e) => setNewUserPassword(e.target.value)}
             />
-           
-            <Button variant="outline-success" onClick={editUser}>Edit user</Button>
+
+            <Button variant="outline-success" onClick={editUser}>
+              Edit user
+            </Button>
           </form>
-          <Button variant="outline-dark" onClick={closeModal}>close</Button>
+          <Button variant="outline-dark" onClick={closeModal}>
+            close
+          </Button>
         </Modal>
       </div>
     </>

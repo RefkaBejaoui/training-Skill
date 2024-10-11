@@ -7,6 +7,7 @@ import {
   LOG_OUT_USER,
   LOGIN_USER,
   REGISTER_USER,
+  SET_COURSE_IMAGE,
   SHOW_USER_NAME,
   UPDATE_COURSE,
   UPDATE_USER,
@@ -111,4 +112,18 @@ export const updateCourse = (courseId, newCourse) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+
+export const fetchCourseImage = (courseId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`/course/images/${courseId}`);
+      const imageCourse = res.data.image;
+      dispatch({ type: SET_COURSE_IMAGE, payload: imageCourse });
+    } catch (error) {
+      // Handle any errors if needed
+      console.error("Error fetching course image:", error);
+    }
+  };
 };

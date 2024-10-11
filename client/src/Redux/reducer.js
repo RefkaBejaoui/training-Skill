@@ -7,6 +7,7 @@ import {
   LOG_OUT_USER,
   LOGIN_USER,
   REGISTER_USER,
+  SET_COURSE_IMAGE,
   SHOW_USER_NAME,
   UPDATE_COURSE,
   UPDATE_USER,
@@ -17,6 +18,7 @@ const initialState = {
   user: [],
   course: [],
   student: [],
+  image: null,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -57,6 +59,9 @@ const reducer = (state = initialState, action) => {
       };
     case UPDATE_COURSE:
       return { ...state, course: action.payload };
+      case SET_COURSE_IMAGE:
+      // Update the state with the received image URL
+      return { ...state, image: action.payload, };
     default:
       return state;
   }
