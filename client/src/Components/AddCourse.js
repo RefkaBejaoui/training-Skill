@@ -8,9 +8,10 @@ import axios from "axios";
 
 function AddCourse() {
   const [title, setTitle] = useState("");
-  const [lesson, setLesson] = useState("");
+  const [lesson1, setLesson1] = useState("");
   const [video, setVideo] = useState("");
   const [image, setImage] = useState("");
+  const [lesson2, setLesson2] = useState("");
   const [shake, setShake] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -40,26 +41,27 @@ function AddCourse() {
 
   const AddNewCourse = (e) => {
     e.preventDefault();
-    if (!lesson && !title && !video && !image) {
+    if (!title) {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
     }
     const NewCourse = {
       title: title,
-      lesson: lesson,
+      lesson1: lesson1,
       video: video,
       image: image,
+      lesson2: lesson2,
     };
     dispatch(addCourse(NewCourse));
     navigate("/adminDashBoard/courseList");
-    //window.location.reload();
   };
 
+  const handleChange = (e) => {
+    setLesson1(e.target.value);
+  };
   return (
     <>
-      <h1>adding here</h1>
-
       <Form style={{ marginLeft: 100, width: 400 }}>
         <Form.Label style={{ fontWeight: "bold" }}> Title </Form.Label>
         <Form.Control
@@ -68,14 +70,17 @@ function AddCourse() {
           onChange={(e) => setTitle(e.target.value)}
         />
         <hr></hr>
-        <Form.Label style={{ fontWeight: "bold" }}>Lesson</Form.Label>
+        <Form.Label style={{ fontWeight: "bold" }}>Part one lesson </Form.Label>
         <textarea
           rows="4"
           cols="50"
           type="text"
           placeholder="lesson of the course"
-          onChange={(e) => setLesson(e.target.value)}
-        ></textarea>
+          value={lesson1}
+          onChange={handleChange}
+        >
+          <div></div>
+        </textarea>
         <Form.Label style={{ fontWeight: "bold" }}>video</Form.Label>
         <Form.Control
           type="text"
@@ -83,28 +88,35 @@ function AddCourse() {
           onChange={(e) => setVideo(e.target.value)}
         />
 
-        <Form.Label style={{ fontWeight: "bold" }}>image</Form.Label>
         {image ? (
-                  <img
-                    src={image}
-                    width="100%"
-                    style={{ margin: "8px 0" }}
-                    height="150px"
-                    alt="product"
-                  />
-                ) : (
-                  <div style={{ margin: "8px 0" }}>
-                    {!uploading ? "Upload Image For course" : "Loading ..."}
-                  </div>
-                )}
-                <div>
-                  Select picture
-                  <input
-                    accept="image/*"
-                    type="file"
-                    onChange={uploadImageCourse}
-                  />
-                </div>
+          <img
+            src={image}
+            width="100%"
+            style={{ margin: "8px 0" }}
+            height="150px"
+            alt="course"
+          />
+        ) : (
+          <Form.Label style={{ fontWeight: "bold" }}>
+            {!uploading ? "Upload Image For course" : "Loading ..."}
+          </Form.Label>
+        )}
+        <div className="=" mb-3>
+          <input
+            accept="image/*"
+            type="file"
+            onChange={uploadImageCourse}
+            style={{ display: "block", marginTop: "8px" }}
+          />
+        </div>
+        <Form.Label style={{ fontWeight: "bold" }}>Part two lesson </Form.Label>
+        <textarea
+          rows="4"
+          cols="50"
+          type="text"
+          placeholder="lesson of the course"
+          onChange={(e) => setLesson2(e.target.value)}
+        ></textarea>
         <Button
           variant="outline-dark"
           type="submit"

@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import { getCourses } from "../Redux/action";
-import { useEffect, useState } from "react";
+//import { useDispatch, useSelector } from "react-redux";
+//import { getCourses } from "../Redux/action";
+//import { useEffect, useState } from "react";
 
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link, Outlet } from "react-router-dom";
@@ -10,7 +10,7 @@ import Col from "react-bootstrap/Col";
 function StudentDashBoard() {
   return (
     <>
-      <h1>Student Dash-Board</h1>
+      <h1 style={{textAlign:"start" , marginLeft:25 ,color:"darkblue"}}>Student Dash-Board</h1>
 
       <container>
         <Row>

@@ -4,48 +4,6 @@ const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/userSchema");
 const authorized = require("../middleware/authorized");
-const Course = require("../models/courseSchema");
-
-router.post("/addCourse", async (req, res) => {
-  try {
-    const { title, lesson, video, image } = req.body;
-    const newCourse = new Course({
-      title: title,
-      lesson: lesson,
-      video: video,
-      image: image,
-    });
-    await newCourse.save();
-    res.send({ msg: "course added successfully", newCourse });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-router.delete("/deletCourse/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const deletedCouse = await Course.findByIdAndDelete(id);
-    res.send({ msg: "cource deleted ", deletedCouse });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-router.put("/updateCourse/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    //const {title, lesson , video , image} = req.body
-    const updatedCourse = await Course.findByIdAndUpdate(
-      id,
-      { ...req.body },
-      { new: true }
-    );
-    res.send({ msg: "the course is updated with sucess", updatedCourse });
-  } catch (error) {
-    console.error(error);
-  }
-});
 
 router.post("/registerUser", async (req, res) => {
   try {
@@ -78,7 +36,7 @@ router.delete("/deleteUser/:id", async (req, res) => {
     if (!deletedUser) {
       return res.status(404).send({ msg: "user to delete is not found" });
     }
-    res.send({ msg: "user deleted", deletedUser });
+    res.send({ msg: "user deleted succsessfully", deletedUser });
   } catch (error) {
     console.log(error);
   }
@@ -143,16 +101,6 @@ router.get("/authorized", authorized, (req, res) => {
   res.send({ user: req.user });
 });
 
-router.get("/getAllCourses", async (req, res) => {
-  try {
-    const courses = await Course.find();
-    res.send({ msg: "this are all th courses", courses });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ msg: "An error in downloading the courses", error });
-  }
-});
-
 router.get("/getStudents", async (req, res) => {
   try {
     const user = await User.find({ role: "student" });
@@ -160,50 +108,6 @@ router.get("/getStudents", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ msg: "An error in getting students", error });
-  }
-});
-
-router.delete("/deleteCourse/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const deletedCourse = await Course.findByIdAndDelete(id);
-    if (!deletedCourse) {
-      return res.status(404).send({ msg: "course to delete is not found" });
-    }
-    res.send({ msg: "course deleted", deletedCourse });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.post("/addCourse", async (req, res) => {
-  try {
-    const { title, lesson, video, image } = req.body;
-    const newCourse = new Course({
-      title: title,
-      lesson: lesson,
-      video: video,
-      image: image,
-    });
-    await newCourse.save();
-    res.send({ msg: "course added successfully", newCourse });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-router.put("/updateCourse/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { title, lesson, video, image } = req.body;
-    const finalCorse = await Course.findByIdAndUpdate(
-      id,
-      { ...req.body },
-      { new: true }
-    );
-    res.send({ msg: "the course is updated with sucess", finalCorse });
-  } catch (error) {
-    console.error(error);
   }
 });
 

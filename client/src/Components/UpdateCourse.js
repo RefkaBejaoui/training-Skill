@@ -12,17 +12,20 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    overflowY: "auto",
+    maxHeight: "90vh",
   },
 };
 
 Modal.setAppElement("#root");
 
-function UpdateCourse({ id, title, lesson, video, image }) {
+function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
   let subtitle;
   const [NewTitle, setNewTitle] = useState(title);
-  const [NewLesson, setNewLesson] = useState(lesson);
+  const [NewLesson1, setNewLesson1] = useState(lesson1);
   const [NewVideo, setNewVideo] = useState(video);
   const [NewImage, setNewImage] = useState(image);
+  const [NewLesson2, setNewLesson2] = useState(lesson2);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const theCourse = useSelector((state) => state.course);
   console.log(theCourse);
@@ -46,9 +49,10 @@ function UpdateCourse({ id, title, lesson, video, image }) {
     const updatedCourse = {
       id,
       title: NewTitle,
-      lesson: NewLesson,
+      lesson1: NewLesson1,
       video: NewVideo,
       image: NewImage,
+      lesson2: NewLesson2,
     };
     dispatch(updateCourse(id, updatedCourse));
     window.location.reload();
@@ -65,12 +69,11 @@ function UpdateCourse({ id, title, lesson, video, image }) {
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
         >
           <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Edit course</h2>
 
           <form>
-            <label>New title </label>
+            <label style={{ fontWeight: "bold" }}>New title </label>
             <br></br>
             <input
               size="45"
@@ -79,18 +82,21 @@ function UpdateCourse({ id, title, lesson, video, image }) {
               value={NewTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />{" "}
+            <hr></hr>
+            <label style={{ fontWeight: "bold" }}>
+              updating lesson : part one{" "}
+            </label>{" "}
             <br></br>
-            <label>New lesson </label> <br></br>
             <textarea
               rows="4"
-              cols="50"
+              cols="70"
               placeholder="lesson"
               type="text"
-              value={NewLesson}
-              onChange={(e) => setNewLesson(e.target.value)}
+              value={NewLesson1}
+              onChange={(e) => setNewLesson1(e.target.value)}
             ></textarea>
-            <br></br>
-            <label>New video </label> <br></br>
+            <hr></hr>
+            <label style={{ fontWeight: "bold" }}>New video </label> <br></br>
             <input
               size="45"
               placeholder="video"
@@ -98,8 +104,8 @@ function UpdateCourse({ id, title, lesson, video, image }) {
               value={NewVideo}
               onChange={(e) => setNewVideo(e.target.value)}
             />
-            <br></br>
-            <label>New image</label> <br></br>
+            <hr></hr>
+            <label style={{ fontWeight: "bold" }}>new image</label> <br></br>
             <input
               size="45"
               placeholder="image"
@@ -107,7 +113,20 @@ function UpdateCourse({ id, title, lesson, video, image }) {
               value={NewImage}
               onChange={(e) => setNewImage(e.target.value)}
             />
+            <hr></hr>
+            <label style={{ fontWeight: "bold" }}>
+              updating lesson : part two{" "}
+            </label>{" "}
             <br></br>
+            <textarea
+              rows="4"
+              cols="70"
+              placeholder="lesson"
+              type="text"
+              value={NewLesson2}
+              onChange={(e) => setNewLesson2(e.target.value)}
+            ></textarea>
+            <hr></hr>
             <Button variant="outline-success" onClick={editCourse}>
               Edit course{" "}
             </Button>

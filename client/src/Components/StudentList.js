@@ -15,8 +15,11 @@ function StudentList() {
   const navigate = useNavigate();
 
   const deleted = (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this user?");
+    if (confirmed) {
     dispatch(deleteUser(id));
-    window.location.reload();
+    }
+    //window.location.reload();
   };
   useEffect(() => {
     dispatch(getStudents());
@@ -28,8 +31,8 @@ function StudentList() {
 
   return (
     <>
-      <h1>student list</h1>
-      <Button variant="outline-dark" onClick={ajouter}>
+      <h2 style={{textDecoration: "underline", fontWeight:900}}>Student list</h2>
+      <Button style={{marginLeft:"70%"}}variant="outline-dark" onClick={ajouter}>
         Add student
       </Button>
       <hr/>
@@ -38,8 +41,8 @@ function StudentList() {
           <tr>
             <th>#</th>
             <th>Student</th>
-            <th>Delete student</th>
-            <th>Edit student</th>
+            {/* <th>Delete student</th>
+            <th>Edit student</th> */}
           </tr>
         </thead>
         <tbody>

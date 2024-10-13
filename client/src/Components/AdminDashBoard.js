@@ -6,8 +6,8 @@ import Col from "react-bootstrap/Col";
 function AdminDashBoard() {
   return (
     <>
-      <h1>Admin Dash-Board</h1>
-
+      
+      <h1 style={{textAlign:"start" , marginLeft:25, color:"darkblue"}}> Admin Dash-Board</h1>
       <container>
         <Row>
           <Col md={3}>

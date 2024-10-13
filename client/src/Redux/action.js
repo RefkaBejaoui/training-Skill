@@ -80,8 +80,8 @@ export const getStudents = () => async (dispatch) => {
 
 export const getCourses = () => async (dispatch) => {
   try {
-    const res = await axios.get("/user/getAllCourses");
-    dispatch({ type: GET_COURSES, payload: res.data });
+    const res = await axios.get("/course/getAllCourses");
+    dispatch({ type: GET_COURSES, payload: res.data.courses });
   } catch (error) {
     console.error(error);
   }
@@ -89,7 +89,7 @@ export const getCourses = () => async (dispatch) => {
 
 export const addCourse = (newCourse) => async (dispatch) => {
   try {
-    const res = await axios.post("/user/addCourse", newCourse);
+    const res = await axios.post("/course/addCourse", newCourse);
     dispatch({ type: ADD_COURSE, payload: res.data });
   } catch (error) {
     console.error(error);
@@ -98,7 +98,7 @@ export const addCourse = (newCourse) => async (dispatch) => {
 
 export const deleteCourse = (courseId) => async (dispatch) => {
   try {
-    await axios.delete(`/user/deleteCourse/${courseId}`);
+    await axios.delete(`/course/deleteCourse/${courseId}`);
     dispatch({ type: DELETE_COURSE, payload: courseId });
   } catch (error) {
     console.error(error);
@@ -107,13 +107,12 @@ export const deleteCourse = (courseId) => async (dispatch) => {
 
 export const updateCourse = (courseId, newCourse) => async (dispatch) => {
   try {
-    const res = await axios.put(`/user/updateCourse/${courseId}`, newCourse);
+    const res = await axios.put(`/course/updateCourse/${courseId}`, newCourse);
     dispatch({ type: UPDATE_COURSE, payload: res.data });
   } catch (error) {
     console.log(error);
   }
 };
-
 
 export const fetchCourseImage = (courseId) => {
   return async (dispatch) => {
@@ -122,7 +121,6 @@ export const fetchCourseImage = (courseId) => {
       const imageCourse = res.data.image;
       dispatch({ type: SET_COURSE_IMAGE, payload: imageCourse });
     } catch (error) {
-      // Handle any errors if needed
       console.error("Error fetching course image:", error);
     }
   };

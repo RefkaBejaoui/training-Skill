@@ -7,13 +7,17 @@ connectDB();
 
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, 'build')));
 
 const routerCouse = require("./routes/course")
 app.use("/course", routerCouse)
 
-const router = require("./routes/user");
-app.use("/user", router);
+const routerUser = require("./routes/user");
+app.use("/user", routerUser);
 
+app.get('*' , (req,res) => {
+  res.sendFile(path.join(__dirname,'build','index.html'))
+})
 
 app.listen(process.env.PORT, (err) => {
   err

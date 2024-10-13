@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
     case GET_STUDENTS:
       return { ...state, student: action.payload.user };
     case GET_COURSES:
-      return { ...state, course: action.payload.courses };
+      return { ...state, course: action.payload };
     case ADD_COURSE:
       return { ...state, course: action.payload.newCourse };
     case DELETE_COURSE:
@@ -59,9 +59,8 @@ const reducer = (state = initialState, action) => {
       };
     case UPDATE_COURSE:
       return { ...state, course: action.payload };
-      case SET_COURSE_IMAGE:
-      // Update the state with the received image URL
-      return { ...state, image: action.payload, };
+    case SET_COURSE_IMAGE:
+      return { ...state, image: action.payload };
     default:
       return state;
   }

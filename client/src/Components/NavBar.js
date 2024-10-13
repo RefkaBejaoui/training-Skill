@@ -69,7 +69,7 @@ function NavBar() {
             )}
           </Nav>
         </Container>
-        <h6 style={{ color: "white" }}>
+        <h6 style={{ color: "white", marginRight:20}}>
           {theCurrentUser && theCurrentUser.userName}
         </h6>
       </Navbar>
