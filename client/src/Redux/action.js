@@ -1,7 +1,10 @@
 import {
+  ADD_CHECKPOINT,
   ADD_COURSE,
+  DELETE_CHECKPOINT,
   DELETE_COURSE,
   DELETE_USER,
+  GET_CHECKPOINT,
   GET_COURSES,
   GET_STUDENTS,
   LOG_OUT_USER,
@@ -9,6 +12,7 @@ import {
   REGISTER_USER,
   SET_COURSE_IMAGE,
   SHOW_USER_NAME,
+  UPDATE_CHECKPOINT,
   UPDATE_COURSE,
   UPDATE_USER,
 } from "./actionTypes";
@@ -62,12 +66,12 @@ export const logOutUser = () => (dispatch) => {
 
 export const updateUser = (userId, newUser) => async (dispatch) => {
   try {
-    console.log("action : starting updateUser")
+    console.log("action : starting updateUser");
     const res = await axios.put(`/user/updateUser/${userId}`, newUser);
-    console.log('reeeeeeeee', res.data)
+    console.log("reeeeeeeee", res.data);
     dispatch({ type: UPDATE_USER, payload: res.data });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
@@ -127,3 +131,42 @@ export const fetchCourseImage = (courseId) => {
     }
   };
 };
+
+export const addCheckPoint = (newCheckPoint) => async (dispatch) => {
+  try {
+    const res = await axios.post("/checkPoint/addCheckPoint", newCheckPoint);
+    dispatch({ type: ADD_CHECKPOINT, payload: res.data });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCheckPoint = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/checkPoint/getCheckPoint");
+    dispatch({ type: GET_CHECKPOINT, payload: res.data.checkPoint });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteCheckPoint = (checkpointId) => async (dispatch) => {
+  try {
+    await axios.delete(`/checkpoint/deleteCheckpoint/${checkpointId}`);
+    dispatch({ type: DELETE_CHECKPOINT, payload: checkpointId });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateCheckpoint = (checkpointId, newCheckpoint) => async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `/checkpoint/updateCheckpoint/${checkpointId}`,
+        newCheckpoint
+      );
+      dispatch({ type: UPDATE_CHECKPOINT, payload: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };

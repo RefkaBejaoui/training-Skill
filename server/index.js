@@ -6,6 +6,7 @@ const path = require("path")
 connectDB();
 
 app.use(express.json());
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -14,6 +15,9 @@ app.use("/course", routerCouse)
 
 const routerUser = require("./routes/user");
 app.use("/user", routerUser);
+
+const routerCheckPoint = require("./routes/checkPoint");
+app.use("/checkPoint", routerCheckPoint);
 
 app.get('*' , (req,res) => {
   res.sendFile(path.join(__dirname,'build','index.html'))

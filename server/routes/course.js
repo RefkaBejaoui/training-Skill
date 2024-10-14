@@ -73,15 +73,6 @@ router.get("/getAllCourses", async (req, res) => {
   }
 });
 
-router.get("/getAllCourses", async (req, res) => {
-  try {
-    const courses = await Course.find();
-    res.send({ msg: "this are all th courses", courses });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ msg: "An error in downloading the courses", error });
-  }
-});
 
 router.post("/addCourse", async (req, res) => {
   try {

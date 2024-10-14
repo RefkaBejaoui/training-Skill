@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 
 const checkPointSchema = new mongoose.Schema({
-  title: { type: String, },
-  task: { type: String },
-  image: { type: String },
   question: { type: String },
+  options : {type:[String]},
+  required : {type:Boolean, default:true},
+  correctAnswer : {type: String}
 });
 
 const CheckPoint = mongoose.model("checkPoint", checkPointSchema);

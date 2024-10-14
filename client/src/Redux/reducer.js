@@ -1,7 +1,10 @@
 import {
+  ADD_CHECKPOINT,
   ADD_COURSE,
+  DELETE_CHECKPOINT,
   DELETE_COURSE,
   DELETE_USER,
+  GET_CHECKPOINT,
   GET_COURSES,
   GET_STUDENTS,
   LOG_OUT_USER,
@@ -9,6 +12,7 @@ import {
   REGISTER_USER,
   SET_COURSE_IMAGE,
   SHOW_USER_NAME,
+  UPDATE_CHECKPOINT,
   UPDATE_COURSE,
   UPDATE_USER,
 } from "./actionTypes";
@@ -19,6 +23,7 @@ const initialState = {
   course: [],
   student: [],
   image: null,
+  chechPoint: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -61,6 +66,19 @@ const reducer = (state = initialState, action) => {
       return { ...state, course: action.payload };
     case SET_COURSE_IMAGE:
       return { ...state, image: action.payload };
+    case ADD_CHECKPOINT:
+      return { ...state, CheckPoint: action.payload.newCheckPoint };
+    case GET_CHECKPOINT:
+      return { ...state, checkPoint: action.payload };
+    case DELETE_CHECKPOINT:
+      return {
+        ...state,
+        checkPoint: state.checkPoint.filter(
+          (checkPoint) => checkPoint._id !== action.payload
+        ),
+      };
+    case UPDATE_CHECKPOINT:
+      return { ...state, checkPoint: action.payload };
     default:
       return state;
   }
