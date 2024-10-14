@@ -52,7 +52,7 @@ router.put("/updateUser/:id", async (req, res) => {
       { ...req.body },
       { new: true }
     );
-
+//if (the user. role === student ) {  bcrypt compare }
     if (theUserToUpdate) {
       const saltRounds = 10;
       const cryptedPassword = await bcrypt.hash(userPassword, saltRounds);

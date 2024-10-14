@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCheckPoint, deleteCheckPoint , addCheckPoint} from "../Redux/action";
+import { getCheckPoint, deleteCheckPoint } from "../Redux/action";
 import Form from "react-bootstrap/Form";
 import UpdateCheckPoint from "./UpdateCheckPoint";
 import Table from "react-bootstrap/Table";
@@ -10,24 +10,50 @@ import { useNavigate } from "react-router-dom";
 function CheckPontList() {
   const theCheckPoint = useSelector((state) => state.checkPoint);
   console.log(theCheckPoint);
-  const theCurrentUser = useSelector((state)=>state.user)
-  const admin = theCurrentUser.role
+  const theCurrentUser = useSelector((state) => state.user);
+  const admin = theCurrentUser.role;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [score, setScore] = useState(0);
+  const length = theCheckPoint.length;
   useEffect(() => {
     dispatch(getCheckPoint());
   }, [dispatch]);
 
-    const deleted = (id) => {
-      if (admin === "admin") {
-        const confirmed = window.confirm(
-          "Are you sure you want to delete this course?");
-        if (confirmed) {
-          dispatch(deleteCheckPoint(id));}}};
-    const ajouter = () => {
-      if (admin === "admin") {
-        navigate("/adminDashBoard/checkPointList/addCheckpoint");}};
+  const deleted = (id) => {
+    if (admin === "admin") {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this checkPoint?"
+      );
+      if (confirmed) {
+        dispatch(deleteCheckPoint(id));
+      }
+    }
+  };
+  const ajouter = () => {
+    if (admin === "admin") {
+      navigate("/adminDashBoard/checkPointList/addCheckpoint");
+    }
+  };
 
+  const handleCheckboxChange = (questionId, option) => {
+    setSelectedOptions((x) => ({
+      ...x,
+      [questionId]: option,
+    }));
+  };
+
+  const submitResponse = () => {
+    let newScore = 0;
+    theCheckPoint.forEach((checkPoint) => {
+      if (selectedOptions[checkPoint._id] === checkPoint.correctAnswer) {
+        newScore += 1;
+      }
+    });
+    setScore(newScore);
+    alert(`Your score is: ${newScore}/ ${length} `);
+  };
   return (
     <>
       <h2
@@ -55,6 +81,7 @@ function CheckPontList() {
             <th>#</th>
             <th>Question</th>
             <th>Options</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -72,38 +99,44 @@ function CheckPontList() {
                             type="checkbox"
                             id={`default-checkbox-${index}`}
                             label={option}
+                            onChange={() =>
+                              handleCheckboxChange(el._id, option)
+                            }
                           />
                         </div>
                       ))}
                     </Form>
                   </td>
                   <td
-                    style={{ display: "flex", justifyContent: "space-evenly" }}>
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
                     {admin === "admin" && (
-                        <>
-                          <UpdateCheckPoint
-                            id={el._id}
-                            title={el.title}
-                            lesson1={el.lesson1}
-                            video={el.video}
-                            image={el.image}
-                            lesson2={el.lesson2}
-                          />
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => deleted(el._id)}
-                          >
-                            Delete
-                          </Button>
-                        </>
-                      )}
+                      <>
+                        <UpdateCheckPoint
+                          id={el._id}
+                          question={el.question}
+                          options={el.options}
+                          correctAnswer={el.correctAnswer}
+                        />
+                        <Button
+                          variant="outline-danger"
+                          onClick={() => deleted(el._id)}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
                   </td>
                 </tr>
               );
             })}
         </tbody>
       </Table>
-      <Button variant="success">Submit</Button>
+      {admin !== "admin" && (
+        <Button variant="success" onClick={submitResponse}>
+          Submit
+        </Button>
+      )}
     </>
   );
 }

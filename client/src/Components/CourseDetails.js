@@ -48,7 +48,7 @@ function CourseDetails() {
   return (
     <>
       <div>
-        <h2 style={{ textDecoration: "underline", paddingTop:80 , color:"darkred" }}>
+        <h2 style={{ textDecoration: "underline", paddingTop:80 , color:"red" }}>
           {selectedCourse.title}
         </h2>
         <p style={{ textAlign:"start", marginTop: 50, border: "dotted 1px gray" ,color:"whitesmoke" , paddingLeft:20}}>
