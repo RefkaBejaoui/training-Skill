@@ -13,6 +13,7 @@ function NavBar() {
   const navigate = useNavigate();
   const theCurrentUser = useSelector((state) => state.user);
   const [showLogin, setShowLogin] = useState(false);
+  // const [showCourseListButton, setShowCourseListButton] = useState(false);
 
   useEffect(() => {
     dispatch(showUserName());
@@ -41,37 +42,64 @@ function NavBar() {
     }
   };
 
+  const BackToCourseListe = () => {
+    if (theCurrentUser.role === "admin") {
+      navigate("/adminDashBoard/courseList/");
+    } else {
+      navigate("/studentDashBoard/courseList/");
+    }
+    // setShowCourseListButton(true);
+  };
+
+  const isCourseDetailsPage = window.location.pathname.includes('courseDetails');
+
+
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" data-bs-theme="dark" fixed="top">
         <Container>
-          <Navbar.Brand>Health Care Training</Navbar.Brand>
+          <Navbar.Brand style={{fontWeight:900}}>Health Care Training</Navbar.Brand>
           <Nav className="me-auto">
             <Button variant="dark" onClick={goToHomePage}>
               HomePage
             </Button>
 
-            {theCurrentUser ? (
-              <>
+            {theCurrentUser &&
+              (isCourseDetailsPage ? (
+                <Button variant="dark" onClick={BackToCourseListe}>
+                  
+                  Course list
+                </Button>
+              ) : (
                 <Button variant="dark" onClick={goTODashBoard}>
                   Dashboard
                 </Button>
+              ))}
+          </Nav>
+          <Nav className="ms-auto">
+            {theCurrentUser ? (
+              <>
+                <span
+                  style={{
+                    color: "blue",
+                    marginRight: 20,
+                    fontSize: 18,
+                    marginTop: 4,
+                  }}
+                >
+                  {theCurrentUser.userName}
+                </span>
                 <Button variant="dark" onClick={isLoggedOut}>
                   Logout
                 </Button>
               </>
             ) : (
-              !theCurrentUser && (
-                <Button variant="dark" onClick={logForm}>
-                  Login
-                </Button>
-              )
+              <Button variant="dark" onClick={logForm}>
+                Login
+              </Button>
             )}
           </Nav>
         </Container>
-        <h6 style={{ color: "white", marginRight:20}}>
-          {theCurrentUser && theCurrentUser.userName}
-        </h6>
       </Navbar>
       {showLogin && <Login />}
     </>

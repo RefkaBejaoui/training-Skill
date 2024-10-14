@@ -1,15 +1,15 @@
 function HomePage() {
   return (
     <>
-      <h1>HomePage</h1>
-      <h5 style={{ textAlign: "start", marginLeft: 25 }}>
+      
+      <h5 style={{ textAlign: "start", marginLeft: 25 , paddingTop:70 , color : "white"}}>
         Introduction{" "}
         <span style={{ fontStyle: "italic", fontSize: 10, color: "blue" }}>
           English version
         </span>
       </h5>
 
-      <p>
+      <p style={{ textAlign: "start", marginLeft: 25  , color : "white" }}>
         Health training skills, by integrating paramedical training, have a
         social responsibility to train all health students, future
         professionals, so that they can respond, with relevance and efficiency,
@@ -28,13 +28,13 @@ function HomePage() {
         style={{ width: 600 }}
       />
 
-      <h5 style={{ textAlign: "start", marginLeft: 25 }}>
+      <h5 style={{ textAlign: "start", marginLeft: 25 , paddingTop:20 , color : "white" }}>
         Introduction{" "}
         <span style={{ fontStyle: "italic", fontSize: 10, color: "blue" }}>
           Version française
         </span>
       </h5>
-      <p>
+      <p style={{ textAlign: "start", marginLeft: 25  , color : "white" }}>
         En intégrant les formations paramédicales, les universités à composante
         santé ont la responsabilité sociale de former tous les étudiants en
         santé, futurs professionnels, pour qu’ils puissent répondre, avec

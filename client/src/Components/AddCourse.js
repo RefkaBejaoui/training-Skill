@@ -1,4 +1,5 @@
 import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -62,32 +63,37 @@ function AddCourse() {
   };
   return (
     <>
-      <Form style={{ marginLeft: 100, width: 400 }}>
-        <Form.Label style={{ fontWeight: "bold" }}> Title </Form.Label>
+      <Form style={{ marginLeft: 100, width: 550 , backgroundColor:'rgb(70, 71, 72)' , paddingTop:20 }}>
+      <h2 style={{color:"white"}}>Adding course</h2>
+        <Form.Label style={{fontSize:20 ,marginRight:400 , fontWeight: "bold" , color: "#a3cae9"}}> Title </Form.Label>
         <Form.Control
           type="text"
           placeholder="Title of the course"
+          style={{backgroundColor:"rgb(201, 215, 222)" }}
           onChange={(e) => setTitle(e.target.value)}
         />
         <hr></hr>
-        <Form.Label style={{ fontWeight: "bold" }}>Part one lesson </Form.Label>
-        <textarea
-          rows="4"
-          cols="50"
-          type="text"
-          placeholder="lesson of the course"
-          value={lesson1}
+        <Form.Label style={{fontSize:20 ,marginRight:300 , fontWeight: "bold" , color: "#a3cae9"}}>Part one lesson </Form.Label>
+        <FloatingLabel controlId="floatingTextarea2">
+              <Form.Control
+                rows="4"
+                cols="70"
+                as="textarea"
+                placeholder="lesson of the course"
+                style={{ height: "100px" , backgroundColor:"rgb(201, 215, 222)" }}
+                value={lesson1}
           onChange={handleChange}
-        >
-          <div></div>
-        </textarea>
-        <Form.Label style={{ fontWeight: "bold" }}>video</Form.Label>
+              />
+            </FloatingLabel>
+            <hr></hr>
+        <Form.Label style={{ fontSize:20 ,marginRight:400 ,fontWeight: "bold", color: "#a3cae9" }}>video</Form.Label>
         <Form.Control
+        style={{backgroundColor:"rgb(201, 215, 222)" }}
           type="text"
           placeholder="video"
           onChange={(e) => setVideo(e.target.value)}
         />
-
+ <hr></hr>
         {image ? (
           <img
             src={image}
@@ -97,7 +103,7 @@ function AddCourse() {
             alt="course"
           />
         ) : (
-          <Form.Label style={{ fontWeight: "bold" }}>
+          <Form.Label style={{ fontSize:20 ,marginRight:200 ,fontWeight: "bold", color: "#a3cae9"}}>
             {!uploading ? "Upload Image For course" : "Loading ..."}
           </Form.Label>
         )}
@@ -106,22 +112,29 @@ function AddCourse() {
             accept="image/*"
             type="file"
             onChange={uploadImageCourse}
-            style={{ display: "block", marginTop: "8px" }}
+            style={{ display: "block", marginTop: "8px", paddingLeft:30  }}
           />
         </div>
-        <Form.Label style={{ fontWeight: "bold" }}>Part two lesson </Form.Label>
-        <textarea
-          rows="4"
-          cols="50"
-          type="text"
-          placeholder="lesson of the course"
-          onChange={(e) => setLesson2(e.target.value)}
-        ></textarea>
+        <hr></hr>
+        <Form.Label style={{ fontSize:20 ,marginRight:300 ,fontWeight: "bold" , color: "#a3cae9" }}>Part two lesson </Form.Label>
+        <FloatingLabel controlId="floatingTextarea2">
+              <Form.Control
+                rows="4"
+                cols="70"
+                as="textarea"
+                placeholder="lesson of the course"
+                style={{ height: "100px", backgroundColor:"rgb(201, 215, 222)" }}
+                value={lesson2}
+                onChange={(e) => setLesson2(e.target.value)}
+              />
+            </FloatingLabel>
+            <hr></hr>
         <Button
-          variant="outline-dark"
+          variant="outline-info"
           type="submit"
           onClick={AddNewCourse}
           className={shake ? "shake" : ""}
+          style={{marginBottom:10}}
         >
           Add
         </Button>

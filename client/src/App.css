@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #121212;
 }
 
 .App-logo {
@@ -40,14 +41,18 @@
 .list-group-item:hover {
   background-color: #8f8c8c; /* Change to your desired color */
   cursor: pointer;
-  color : white
+  color: white;
 }
 @keyframes shake {
- 
-  20% { transform: translateX(10px); }
-  30% { transform: translateX(-10px); }
-  40% { transform: translateX(10px); }
-
+  20% {
+    transform: translateX(10px);
+  }
+  30% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
 }
 
 .shake {

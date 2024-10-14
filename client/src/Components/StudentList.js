@@ -6,20 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function StudentList() {
   const theCurrentUser = useSelector((state) => state.student);
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const deleted = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this user?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
     if (confirmed) {
-    dispatch(deleteUser(id));
+      dispatch(deleteUser(id));
     }
-    //window.location.reload();
   };
   useEffect(() => {
     dispatch(getStudents());
@@ -31,18 +30,30 @@ function StudentList() {
 
   return (
     <>
-      <h2 style={{textDecoration: "underline", fontWeight:900}}>Student list</h2>
-      <Button style={{marginLeft:"70%"}}variant="outline-dark" onClick={ajouter}>
+      <h2
+        style={{
+          textDecoration: "underline",
+          fontWeight: 900,
+         
+          color: "Window",
+        }}
+      >
+        Student list
+      </h2>
+      <Button
+        style={{ marginLeft: "70%" }}
+        variant="outline-info"
+        onClick={ajouter}
+      >
         Add student
       </Button>
-      <hr/>
-      <Table striped bordered hover size="sm">
+      <hr style={{ height: "2px", backgroundColor: "white", border: "none" }} />
+      <Table striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>#</th>
             <th>Student</th>
-            {/* <th>Delete student</th>
-            <th>Edit student</th> */}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +63,14 @@ function StudentList() {
                 <tr>
                   <td>{index + 1}</td>
                   <td>{el.userName}</td>
-                  <td>
+                  <td
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
+                    <UpdateUser
+                      id={el._id}
+                      userName={el.userName}
+                      userPassword={el.userPassword}
+                    />
                     <Button
                       variant="outline-danger"
                       onClick={() => deleted(el._id)}
@@ -60,19 +78,11 @@ function StudentList() {
                       Delete
                     </Button>
                   </td>
-                  <td>
-                    <UpdateUser
-                      id={el._id}
-                      userName={el.userName}
-                      userPassword={el.userPassword}
-                    />
-                  </td>
                 </tr>
               );
             })}
         </tbody>
       </Table>
-      
     </>
   );
 }

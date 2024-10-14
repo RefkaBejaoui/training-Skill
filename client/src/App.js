@@ -5,15 +5,13 @@ import HomePage from "./Components/HomePage";
 import Login from "./Components/Login";
 import AdminDashBoard from "./Components/AdminDashBoard";
 import StudentDashBoard from "./Components/StudentDashBoard";
-import AdminList from "./Components/AdminList";
 import StudentList from "./Components/StudentList";
 import CourseList from "./Components/CourseList";
 import CheckPointList from "./Components/CheckPointList";
-import UpdateUser from "./Components/UpdateUser";
 import AddUser from "./Components/AddUser";
 import AddCourse from "./Components/AddCourse";
-import CourseLayOut from "./Components/CourseLayOut";
 import CourseDetails from "./Components/CourseDetails";
+import Profile from "./Components/Profile";
 
 function App() {
   return (
@@ -21,36 +19,34 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/adminDashBoard" element={<AdminDashBoard />}>
-          <Route path="/adminDashBoard/adminList" element={<AdminList />} />
           <Route path="/adminDashBoard/studentList" element={<StudentList />} />
-          <Route
-            path="/adminDashBoard/studentList/updateUser"
-            element={<UpdateUser />}
-          />
-          <Route path="/adminDashBoard/courseList" element={<CourseList />} />
-          <Route
-            path="/adminDashBoard/checkPointList"
-            element={<CheckPointList />}
-          />
           <Route
             path="/adminDashBoard/studentList/addUser"
             element={<AddUser />}
           />
+          <Route path="/adminDashBoard/courseList" element={<CourseList />} />
           <Route
             path="/adminDashBoard/courseList/addCourse"
             element={<AddCourse />}
           />
           <Route
-            path="/adminDashBoard/courseList/:id"
-            element={<CourseLayOut />}
+            path="/adminDashBoard/checkPointList"
+            element={<CheckPointList />}
+          />
+          <Route
+            path="/adminDashBoard/profile"
+            element={<Profile/>}
           />
         </Route>
-
         <Route path="/studentDashBoard" element={<StudentDashBoard />}>
           <Route path="/studentDashBoard/courseList" element={<CourseList />} />
           <Route
-            path="/studentDashBoard/courseList/:id"
-            element={<CourseLayOut />}
+            path="/studentDashBoard/checkPointList"
+            element={<CheckPointList />}
+          />
+          <Route
+            path="/studentDashBoard/profile"
+            element={<Profile/>}
           />
         </Route>
         <Route path="/login" element={<Login />} />

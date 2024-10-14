@@ -40,21 +40,27 @@ function CourseList() {
 
   return (
     <>
-      <h2 style={{ textDecoration: "underline", fontWeight: 900 }}>
+      <h2
+        style={{
+          textDecoration: "underline",
+          fontWeight: 900,
+          color: "Window",
+        }}
+      >
         Course list
       </h2>
       {admin === "admin" && (
         <Button
           style={{ marginLeft: "70%" }}
-          variant="outline-dark"
+          variant="outline-info"
           onClick={ajouter}
         >
           Add course
         </Button>
       )}
-      <hr />
-      <Table striped bordered hover size="sm">
-        <thead>
+      <hr style={{ height: "2px", backgroundColor: "white", border: "none" }} />
+      <Table striped bordered hover variant="dark"  >
+        <thead >
           <tr>
             <th>#</th>
             <th>Course</th>
@@ -71,14 +77,14 @@ function CourseList() {
                   <td
                     style={{ display: "flex", justifyContent: "space-evenly" }}
                   >
+                    <Button
+                      variant="outline-info"
+                      onClick={() => viewTheCourse(el._id, index)}
+                    >
+                      View course
+                    </Button>
                     {admin === "admin" && (
                       <>
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => deleted(el._id)}
-                        >
-                          Delete
-                        </Button>
                         <UpdateCourse
                           id={el._id}
                           title={el.title}
@@ -87,21 +93,14 @@ function CourseList() {
                           image={el.image}
                           lesson2={el.lesson2}
                         />
+                        <Button
+                          variant="outline-danger"
+                          onClick={() => deleted(el._id)}
+                        >
+                          Delete
+                        </Button>
                       </>
                     )}
-                    {/* <Link
-                      to={
-                        admin === "admin"
-                          ? `/adminDashBoard/courseList/${el._id}`
-                          : `/studentDashBoard/courseList/${el._id}`
-                      }
-                    > */}
-                    <Button
-                      variant="outline-dark"
-                      onClick={() => viewTheCourse(el._id)}
-                    >
-                      View course
-                    </Button>
                   </td>
                 </tr>
               );

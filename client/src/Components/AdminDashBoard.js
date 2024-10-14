@@ -6,37 +6,37 @@ import Col from "react-bootstrap/Col";
 function AdminDashBoard() {
   return (
     <>
-      
-      <h1 style={{textAlign:"start" , marginLeft:25, color:"darkblue"}}> Admin Dash-Board</h1>
       <container>
-        <Row>
-          <Col md={3}>
+        <h1
+          style={{
+            textAlign: "start",
+            marginLeft: 25,
+            color: "darkblue",
+            paddingBottom: 10,
+            paddingTop: 60,
+          }}
+        >
+          Admin Dash-Board
+        </h1>
+        <Row style={{ paddingBottom: 600 }}>
+          <Col md={2}>
             <ListGroup as="ol" numbered>
-              <Link to="" style={{ textDecoration: "none" }}>
+              <Link to="profile" style={{ textDecoration: "none" }}>
                 <ListGroup.Item
+                  action
+                  variant="dark"
                   as="li"
                   className="d-flex justify-content-between align-items-start"
                 >
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">Update Profile</div>
+                    <div className="fw-bold">Profile</div>
                   </div>
                 </ListGroup.Item>
               </Link>
-
-              <Link to="adminList" style={{ textDecoration: "none" }}>
-                <ListGroup.Item
-                  as="li"
-                  className="d-flex justify-content-between align-items-start"
-                >
-                  <div className="ms-2 me-auto">
-                    <div className="fw-bold">Admin</div>
-                  </div>
-                </ListGroup.Item>
-              </Link>
-
               <Link to="studentList" style={{ textDecoration: "none" }}>
-                {" "}
                 <ListGroup.Item
+                  action
+                  variant="info"
                   as="li"
                   className="d-flex justify-content-between align-items-start"
                 >
@@ -47,8 +47,9 @@ function AdminDashBoard() {
               </Link>
 
               <Link to="courseList" style={{ textDecoration: "none" }}>
-                {" "}
                 <ListGroup.Item
+                  action
+                  variant="dark"
                   as="li"
                   className="d-flex justify-content-between align-items-start"
                 >
@@ -59,8 +60,9 @@ function AdminDashBoard() {
               </Link>
 
               <Link to="CheckPointList" style={{ textDecoration: "none" }}>
-                {" "}
                 <ListGroup.Item
+                  action
+                  variant="info"
                   as="li"
                   className="d-flex justify-content-between align-items-start"
                 >
@@ -70,9 +72,21 @@ function AdminDashBoard() {
                 </ListGroup.Item>
               </Link>
             </ListGroup>
+            <Link to="" style={{ textDecoration: "none" }}>
+              <ListGroup.Item
+                style={{ padding: 10 }}
+                action
+                variant="dark"
+                as="li"
+                className="d-flex justify-content-between align-items-start"
+              >
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold">Score</div>
+                </div>
+              </ListGroup.Item>
+            </Link>
           </Col>
-
-          <Col md={9}>
+          <Col md={10}>
             <Outlet />
           </Col>
         </Row>

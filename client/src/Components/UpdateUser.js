@@ -12,6 +12,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    overflowY: "auto",
+    maxHeight: "90vh",
+    backgroundColor: "#eaecf0"
   },
 };
 
@@ -63,26 +66,31 @@ function UpdateUser({ id, userName, userPassword }) {
           <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Edit user</h2>
 
           <form>
-            <label>New user name </label>
+            <label style={{fontWeight:"bold"}}>New user name </label>
+            <br></br>
             <input
+            size="45"
               placeholder="name"
               type="text"
               value={NewUserName}
               onChange={(e) => setNewUserName(e.target.value)}
             />
-            <label>New user password </label>
+            <hr></hr>
+            <label style={{fontWeight:"bold"}}>New user password </label>
+            <br></br>
             <input
+             size="45"
               placeholder="password"
               type="text"
               value={NewUserPassword}
               onChange={(e) => setNewUserPassword(e.target.value)}
             />
-
+<hr></hr>
             <Button variant="outline-success" onClick={editUser}>
               Edit user
             </Button>
           </form>
-          <Button variant="outline-dark" onClick={closeModal}>
+          <Button variant="outline-danger" onClick={closeModal}>
             close
           </Button>
         </Modal>

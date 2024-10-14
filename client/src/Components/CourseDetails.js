@@ -7,7 +7,6 @@ function CourseDetails() {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const theCourse = useSelector((state) => state.course);
-  //   const selectedCourse = theCourse.find((course) => course._id === courseId);
   const theCurrentUser = useSelector((state) => state.user);
   const [selectedCourse, setSelectedCourse] = useState(null);
 
@@ -17,24 +16,44 @@ function CourseDetails() {
   }, [courseId, theCourse]);
 
   const goBack = () => {
-    if (theCurrentUser.role === "admin") {
-      navigate("/adminDashBoard/courseList");
+    const currentIndex = theCourse.findIndex(
+      (course) => course._id === courseId
+    );
+    if (currentIndex === 0) {
+      if (theCurrentUser.role === "admin") {
+        navigate("/adminDashBoard/courseList");
+      } else if (theCurrentUser.role === "student") {
+        navigate("/studentDashBoard/courseList");
+      }
     } else {
-      navigate("/studentDashBoard/courseList");
+      const previousIndex = currentIndex - 1;
+      const previousCourseId = theCourse[previousIndex]._id;
+      navigate(`/courseDetails/${previousCourseId}`);
     }
   };
 
+  const goToNext = () => {
+    const currentIndex = theCourse.findIndex(
+      (course) => course._id === courseId
+    );
+    const nextIndex = (currentIndex + 1) % theCourse.length;
+    const nextCourseId = theCourse[nextIndex]._id;
+    navigate(`/courseDetails/${nextCourseId}`);
+  };
+
   if (!selectedCourse) {
-    return <p>Loading course details ...</p>;
+    return <p style={{color:"whitesmoke"}}>Loading course details ...</p>;
   }
 
   return (
     <>
       <div>
-        {/* {selectedCourse && (
-          <> */}
-        <p>{selectedCourse.title}</p>
-        <p>{selectedCourse.lesson1}</p>
+        <h2 style={{ textDecoration: "underline", paddingTop:80 , color:"darkred" }}>
+          {selectedCourse.title}
+        </h2>
+        <p style={{ textAlign:"start", marginTop: 50, border: "dotted 1px gray" ,color:"whitesmoke" , paddingLeft:20}}>
+          {selectedCourse.lesson1}
+        </p>
         <p>{selectedCourse.video}</p>
         {selectedCourse.image && (
           <img
@@ -43,14 +62,13 @@ function CourseDetails() {
             style={{ Width: 800, height: 250 }}
           />
         )}
-        <p>{selectedCourse.lesson2}</p>
-        {/* </>
-        )} */}
-        <Button variant="outline-dark" onClick={goBack}>
-          Go Back{" "}
+        <p style={{textAlign:"start",paddingLeft:20 ,border: "dotted 1px gray", color:"whitesmoke"}}>{selectedCourse.lesson2}</p>
+
+        <Button variant="secondary" onClick={goBack}>
+          {"<= Previous course"}
         </Button>
-        <Button variant="outline-dark" onClick={goBack}>
-          Next{" "}
+        <Button variant="light" onClick={goToNext}>
+          {"Next course =>"}
         </Button>
       </div>
     </>

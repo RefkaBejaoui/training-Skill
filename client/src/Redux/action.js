@@ -62,10 +62,12 @@ export const logOutUser = () => (dispatch) => {
 
 export const updateUser = (userId, newUser) => async (dispatch) => {
   try {
+    console.log("action : starting updateUser")
     const res = await axios.put(`/user/updateUser/${userId}`, newUser);
+    console.log('reeeeeeeee', res.data)
     dispatch({ type: UPDATE_USER, payload: res.data });
   } catch (error) {
-    console.log(error);
+    console.error(error)
   }
 };
 
