@@ -23,7 +23,7 @@ const initialState = {
   course: [],
   student: [],
   image: null,
-  chechPoint: [],
+  checkPoint: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {

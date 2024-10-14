@@ -12,6 +12,7 @@ import AddUser from "./Components/AddUser";
 import AddCourse from "./Components/AddCourse";
 import CourseDetails from "./Components/CourseDetails";
 import Profile from "./Components/Profile";
+import AddCheckPoint from "./Components/AddCheckPoint";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             path="/adminDashBoard/checkPointList"
             element={<CheckPointList />}
           />
+          <Route path="/adminDashBoard/checkPointList/addCheckpoint" element={<AddCheckPoint/>}/>
           <Route
             path="/adminDashBoard/profile"
             element={<Profile/>}

@@ -19,10 +19,10 @@ router.post("/addCheckPoint", async (req, res) => {
   }
 });
 
-router.get("/getCheckPoint", async (req, res) => {
+router.get("/getCheckPoint", async (req, res) => { 
   try {
-    const chechPoint = await CheckPoint.find();
-    res.send({ msg: "this are all the checkPoints", chechPoint });
+    const checkPoint = await CheckPoint.find();
+    res.send({ msg: "this are all the checkPoints", checkPoint });
   } catch (error) {
     console.error(error);
     res
