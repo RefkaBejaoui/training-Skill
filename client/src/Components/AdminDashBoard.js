@@ -67,14 +67,14 @@ function AdminDashBoard() {
                   className="d-flex justify-content-between align-items-start"
                 >
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">check Points</div>
+                    <div className="fw-bold">Check Points</div>
                   </div>
                 </ListGroup.Item>
               </Link>
             </ListGroup>
             <Link to="" style={{ textDecoration: "none" }}>
               <ListGroup.Item
-                style={{ padding: 10 }}
+                style={{ paddingBottom: 10 , paddingLeft:18}}
                 action
                 variant="dark"
                 as="li"

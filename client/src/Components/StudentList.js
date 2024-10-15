@@ -18,6 +18,7 @@ function StudentList() {
     );
     if (confirmed) {
       dispatch(deleteUser(id));
+      window.location.reload();
     }
   };
   useEffect(() => {
