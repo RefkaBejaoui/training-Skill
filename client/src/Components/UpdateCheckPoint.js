@@ -1,11 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { updateCheckpoint } from "../Redux/action";
-//import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Form from "react-bootstrap/Form";
 
 const customStyles = {
   content: {
@@ -17,7 +14,7 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     overflowY: "auto",
     maxHeight: "90vh",
-    backgroundColor: "#eaecf0"
+    backgroundColor: "#eaecf0",
   },
 };
 
@@ -27,14 +24,17 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
   let subtitle;
   const [NewQuestion, setNewQuestion] = useState(question);
   const [NewOptions, setNewOptions] = useState([]);
-  const [NewCorrectAnswer, setNewCorrectAnswer] = useState(correctAnswer);
+  const [NewCorrectAnswers, setNewCorrectAnswers] = useState([]);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [currentOption, setCurrentOption] = useState("");
+  const [oldOption, setOldOption] = useState("");
+  const [updatedOption, setUpdatedOption] = useState("");
+  const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState("");
 
-  useEffect(()=>{
-    setNewOptions(options)
-  },[])
-  
+  useEffect(() => {
+    setNewOptions(options);
+    setNewCorrectAnswers(correctAnswer);
+  }, [options, correctAnswer]);
 
   const dispatch = useDispatch();
 
@@ -56,10 +56,10 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
       id,
       question: NewQuestion,
       options: NewOptions,
-      correctAnswer: NewCorrectAnswer,
+      correctAnswer: NewCorrectAnswers,
     };
     dispatch(updateCheckpoint(id, updatedCheckPoint));
-    setNewOptions([options])
+    setNewOptions([options]);
     window.location.reload();
     closeModal();
   };
@@ -69,8 +69,42 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
       setNewOptions((prevOptions) => [...prevOptions, currentOption]);
       setCurrentOption("");
     }
-    console.log(options)
+    console.log(NewOptions);
   };
+
+  const handleDeleteOption = (optionToDelete) => {
+    setNewOptions((prevOptions) =>
+      prevOptions.filter((option) => option !== optionToDelete)
+    );
+    setCurrentOption("");
+  };
+
+  const handleUpdateOption = (oldOption, updatedOption) => {
+    setNewOptions((prevOption) =>
+      prevOption.map((option) =>
+        option === oldOption ? updatedOption : option
+      )
+    );
+    setUpdatedOption("");
+    setOldOption("");
+  };
+
+  const handleAddCorrectAnswer = () => {
+    if (
+      currentCorrectAnswer &&
+      !NewCorrectAnswers.includes(currentCorrectAnswer)
+    )
+      setNewCorrectAnswers([...NewCorrectAnswers, currentCorrectAnswer]);
+    setCurrentCorrectAnswer("");
+  };
+
+  const handleDeleteCorrectAnswer = (answerToDelete) => {
+    setNewCorrectAnswers((answers) =>
+      answers.filter((answer) => answer !== answerToDelete)
+    );
+    setCurrentCorrectAnswer("");
+  };
+
   return (
     <>
       <div>
@@ -89,42 +123,97 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
             <label style={{ fontWeight: "bold" }}>Update question </label>
             <br></br>
             <input
-              size="50"
+              size="70"
               placeholder="question"
               type="text"
+              style={{ backgroundColor: "rgb(201, 215, 222)" }}
               value={NewQuestion}
               onChange={(e) => setNewQuestion(e.target.value)}
             />
             <hr></hr>
-            <label style={{ fontWeight: "bold" }}>
-             Update options
-            </label>
+            <label style={{ fontWeight: "bold" }}>Update options</label>
             <br></br>
-            
+            <textarea
+              style={{ backgroundColor: "rgb(201, 215, 222)" }}
+              cols="75"
+              rows="5"
+              value={NewOptions.join("\n")}
+            ></textarea>{" "}
+            <br></br>
             <input
-          type="text"
-          placeholder="options"
-          style={{backgroundColor:"rgb(201, 215, 222)" }}
-         value={currentOption}
-          onChange={(e) => setCurrentOption(e.target.value)}
-        />
-              
-              <Button type="button" onClick={handleAddOption} variant="secondary" style={{ marginTop: 10 }}>
-                Add Answer
-              </Button>
-              
-           
-            <hr></hr>
-            <label style={{ fontWeight: "bold" }}>update currect answer </label> <br></br>
-            <input
-              size="50"
-              placeholder="video"
               type="text"
-              value={correctAnswer}
-              onChange={(e) => setNewCorrectAnswer(e.target.value)}
+              size="25"
+              style={{ backgroundColor: "rgb(201, 215, 222)", marginRight: 5 }}
+              placeholder="Option to update"
+              value={oldOption}
+              onChange={(e) => setOldOption(e.target.value)}
             />
+            <input
+              size="25"
+              type="text"
+              style={{ backgroundColor: "rgb(201, 215, 222)", marginRight: 5 }}
+              placeholder="New option value"
+              value={updatedOption}
+              onChange={(e) => setUpdatedOption(e.target.value)}
+            />
+            <Button
+              type="button"
+              onClick={() => handleUpdateOption(oldOption, updatedOption)}
+              variant="info"
+            >
+              Update option
+            </Button>
+            <br></br>
+            <input
+              size="43"
+              type="text"
+              placeholder="options"
+              style={{ backgroundColor: "rgb(201, 215, 222)", marginRight: 5 }}
+              value={currentOption}
+              onChange={(e) => setCurrentOption(e.target.value)}
+            />
+            <Button type="button" onClick={handleAddOption} variant="success">
+              Add option
+            </Button>
+            <Button
+              type="button"
+              onClick={() => handleDeleteOption(currentOption)}
+              variant="danger"
+            >
+              Delete option
+            </Button>
             <hr></hr>
-
+            <label style={{ fontWeight: "bold" }}>
+              update currect answer{" "}
+            </label>{" "}
+            <br></br>
+            <textarea
+              style={{ backgroundColor: "rgb(201, 215, 222)" }}
+              cols="75"
+              rows="5"
+              value={NewCorrectAnswers.join("\n")}
+            ></textarea>{" "}
+            <br></br>
+            <input
+              size="43"
+              placeholder="Add correct answer"
+              type="text"
+              value={currentCorrectAnswer}
+              onChange={(e) => setCurrentCorrectAnswer(e.target.value)}
+              style={{ backgroundColor: "rgb(201, 215, 222)", marginRight: 5 }}
+            />
+            <Button onClick={handleAddCorrectAnswer} variant="success">
+              {" "}
+              Add answer{" "}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => handleDeleteCorrectAnswer(currentCorrectAnswer)}
+              variant="danger"
+            >
+              Delete answer
+            </Button>
+            <hr></hr>
             <Button variant="outline-success" onClick={editCheckPoint}>
               Edit course{" "}
             </Button>

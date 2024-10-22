@@ -26,10 +26,15 @@ Modal.setAppElement("#root");
 function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
   let subtitle;
   const [NewTitle, setNewTitle] = useState(title);
-  const [NewLesson1, setNewLesson1] = useState(lesson1);
+  // const [NewLesson1, setNewLesson1] = useState(lesson1);
+  // const [NewLesson2, setNewLesson2] = useState(lesson2);
+  const [NewLesson1, setNewLesson1] = useState(Array.isArray(lesson1) ? lesson1 : (lesson1 ? lesson1.split('. ').map(s => s.trim()) : []));
+const [NewLesson2, setNewLesson2] = useState(Array.isArray(lesson2) ? lesson2 : (lesson2 ? lesson2.split('. ').map(s => s.trim()) : []));
+
+
   const [NewVideo, setNewVideo] = useState(video);
   const [NewImage, setNewImage] = useState(image);
-  const [NewLesson2, setNewLesson2] = useState(lesson2);
+ 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -73,10 +78,10 @@ function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
     const updatedCourse = {
       id,
       title: NewTitle,
-      lesson1: NewLesson1,
+      lesson1: NewLesson1.join('. '),
       video: NewVideo,
       image: NewImage,
-      lesson2: NewLesson2,
+      lesson2: NewLesson2.join('. '),
     };
     dispatch(updateCourse(id, updatedCourse));
     window.location.reload();
@@ -105,11 +110,11 @@ function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
               type="text"
               value={NewTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-            />{" "}
+            />
             <hr></hr>
             <label style={{ fontWeight: "bold" }}>
-              updating lesson : part one{" "}
-            </label>{" "}
+              updating lesson : part one
+            </label>
             <br></br>
             <FloatingLabel controlId="floatingTextarea2">
               <Form.Control
@@ -118,8 +123,8 @@ function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
                 as="textarea"
                 placeholder="lesson"
                 style={{ height: "100px" }}
-                value={NewLesson1}
-                onChange={(e) => setNewLesson1(e.target.value)}
+                value={NewLesson1.join('\n')}
+                onChange={(e) => setNewLesson1(e.target.value.split('\n').map(s=>s.trim()))}
               />
             </FloatingLabel>
             <hr></hr>
@@ -166,8 +171,8 @@ function UpdateCourse({ id, title, lesson1, video, image, lesson2 }) {
                 as="textarea"
                 placeholder="lesson"
                 style={{ height: "100px" }}
-                value={NewLesson2}
-                onChange={(e) => setNewLesson2(e.target.value)}
+                value={NewLesson2.join('\n')}
+                onChange={(e) => setNewLesson2(e.target.value.split('\n').map(s=>s.trim()))}
               />
             </FloatingLabel>
             <hr></hr>

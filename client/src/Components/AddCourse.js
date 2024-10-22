@@ -10,9 +10,11 @@ import axios from "axios";
 function AddCourse() {
   const [title, setTitle] = useState("");
   const [lesson1, setLesson1] = useState("");
+  const [partOfLesson1, setPartOfLesson1] = useState([]);
   const [video, setVideo] = useState("");
   const [image, setImage] = useState("");
   const [lesson2, setLesson2] = useState("");
+  const [partOfLesson2, setPartOfLesson2] = useState([]);
   const [shake, setShake] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -58,9 +60,6 @@ function AddCourse() {
     navigate("/adminDashBoard/courseList");
   };
 
-  const handleChange = (e) => {
-    setLesson1(e.target.value);
-  };
   return (
     <>
       <Form style={{ marginLeft: 100, width: 550 , backgroundColor:'rgb(70, 71, 72)' , paddingTop:20 }}>
@@ -82,7 +81,17 @@ function AddCourse() {
                 placeholder="lesson of the course"
                 style={{ height: "100px" , backgroundColor:"rgb(201, 215, 222)" }}
                 value={lesson1}
-          onChange={handleChange}
+          onChange={(e)=> {setLesson1(e.target.value);
+             setPartOfLesson1([e.target.value])}}
+
+              />
+              <Form.Control
+                rows="4"
+                cols="70"
+                as="textarea"
+                placeholder="lesson of the course"
+                style={{ height: "100px" , backgroundColor:"rgb(201, 215, 222)", marginTop:5 }}
+                value ={partOfLesson1.join("\n")}
               />
             </FloatingLabel>
             <hr></hr>
@@ -118,6 +127,7 @@ function AddCourse() {
         <hr></hr>
         <Form.Label style={{ fontSize:20 ,marginRight:300 ,fontWeight: "bold" , color: "#a3cae9" }}>Part two lesson </Form.Label>
         <FloatingLabel controlId="floatingTextarea2">
+       
               <Form.Control
                 rows="4"
                 cols="70"
@@ -125,7 +135,15 @@ function AddCourse() {
                 placeholder="lesson of the course"
                 style={{ height: "100px", backgroundColor:"rgb(201, 215, 222)" }}
                 value={lesson2}
-                onChange={(e) => setLesson2(e.target.value)}
+                onChange={(e) => {setLesson2(e.target.value); setPartOfLesson2([e.target.value])}}
+              />
+               <Form.Control
+                rows="4"
+                cols="70"
+                as="textarea"
+                placeholder="lesson of the course"
+                style={{ height: "100px" , backgroundColor:"rgb(201, 215, 222)", marginTop:5 }}
+                value ={partOfLesson2.join("\n")}
               />
             </FloatingLabel>
             <hr></hr>

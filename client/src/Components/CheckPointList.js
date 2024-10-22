@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function CheckPontList() {
   const theCheckPoint = useSelector((state) => state.checkPoint);
-  console.log(theCheckPoint);
+
   const theCurrentUser = useSelector((state) => state.user);
   const admin = theCurrentUser.role;
   const navigate = useNavigate();
@@ -89,8 +89,12 @@ function CheckPontList() {
             theCheckPoint.map((el, index) => {
               return (
                 <tr key={el._id}>
-                  <td>{index + 1}</td>
-                  <td>{el.question}</td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {index + 1}
+                  </td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                    {el.question}
+                  </td>
                   <td>
                     <Form>
                       {el.options.map((option, index) => (
@@ -107,23 +111,28 @@ function CheckPontList() {
                       ))}
                     </Form>
                   </td>
-                  <td
-                    style={{ display: "flex", justifyContent: "space-evenly" }}
-                  >
+                  <td>
                     {admin === "admin" && (
                       <>
-                        <UpdateCheckPoint
-                          id={el._id}
-                          question={el.question}
-                          options={el.options}
-                          correctAnswer={el.correctAnswer}
-                        />
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => deleted(el._id)}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                          }}
                         >
-                          Delete
-                        </Button>
+                          <UpdateCheckPoint
+                            id={el._id}
+                            question={el.question}
+                            options={el.options}
+                            correctAnswer={el.correctAnswer}
+                          />
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => deleted(el._id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
                       </>
                     )}
                   </td>

@@ -4,11 +4,10 @@ const CheckPoint = require("../models/checkPointSchema");
 
 router.post("/addCheckPoint", async (req, res) => {
   try {
-    const { question, options, required, correctAnswer } = req.body;
+    const { question, options, correctAnswer } = req.body;
     const newCheckPoint = new CheckPoint({
       question: question,
       options: options,
-      required: required,
       correctAnswer: correctAnswer,
     });
     await newCheckPoint.save();
