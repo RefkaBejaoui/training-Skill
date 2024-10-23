@@ -41,7 +41,9 @@ function StudentDashBoard() {
                 </ListGroup.Item>
               </Link>
 
-              <Link to="studentList" style={{ textDecoration: "none" }}>
+              
+
+              <Link to="CheckPointList" style={{ textDecoration: "none" }}>
                 <ListGroup.Item
                   action
                   variant="dark"
@@ -49,12 +51,11 @@ function StudentDashBoard() {
                   className="d-flex justify-content-between align-items-start"
                 >
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">Score</div>
+                    <div className="fw-bold">check Points</div>
                   </div>
                 </ListGroup.Item>
               </Link>
-
-              <Link to="CheckPointList" style={{ textDecoration: "none" }}>
+              <Link to="studentScore" style={{ textDecoration: "none" }}>
                 <ListGroup.Item
                   action
                   variant="info"
@@ -62,7 +63,7 @@ function StudentDashBoard() {
                   className="d-flex justify-content-between align-items-start"
                 >
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">check Points</div>
+                    <div className="fw-bold">Score</div>
                   </div>
                 </ListGroup.Item>
               </Link>

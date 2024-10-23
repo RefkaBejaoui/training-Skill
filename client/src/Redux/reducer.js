@@ -15,6 +15,9 @@ import {
   UPDATE_CHECKPOINT,
   UPDATE_COURSE,
   UPDATE_USER,
+  REGIDTER_STUDENT_SCORE,
+  SHOW_STUDENT_SCORE,
+  SHOW_SCORES,
 } from "./actionTypes";
 
 const initialState = {
@@ -24,6 +27,7 @@ const initialState = {
   student: [],
   image: null,
   checkPoint: [],
+  score: 0,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -79,6 +83,18 @@ const reducer = (state = initialState, action) => {
       };
     case UPDATE_CHECKPOINT:
       return { ...state, checkPoint: action.payload };
+
+    case REGIDTER_STUDENT_SCORE:
+      return { ...state, score: action.payload.newScore };
+
+    case SHOW_STUDENT_SCORE:
+      return {
+        ...state,
+        score: action.payload,
+      };
+
+    case SHOW_SCORES:
+      return { ...state, score: action.payload };
     default:
       return state;
   }

@@ -13,6 +13,7 @@ import AddCourse from "./Components/AddCourse";
 import CourseDetails from "./Components/CourseDetails";
 import Profile from "./Components/Profile";
 import AddCheckPoint from "./Components/AddCheckPoint";
+import Score from "./Components/Score";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             path="/adminDashBoard/profile"
             element={<Profile/>}
           />
+           <Route path="/adminDashBoard/studentScores" element={<Score/>}/>
         </Route>
         <Route path="/studentDashBoard" element={<StudentDashBoard />}>
           <Route path="/studentDashBoard/courseList" element={<CourseList />} />
@@ -50,6 +52,7 @@ function App() {
             path="/studentDashBoard/profile"
             element={<Profile/>}
           />
+          <Route path="/studentDashBoard/studentScore" element={<Score/>}/>
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<HomePage />} />

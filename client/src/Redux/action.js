@@ -15,6 +15,9 @@ import {
   UPDATE_CHECKPOINT,
   UPDATE_COURSE,
   UPDATE_USER,
+  REGIDTER_STUDENT_SCORE,
+  SHOW_SCORES,
+  SHOW_STUDENT_SCORE,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -159,7 +162,8 @@ export const deleteCheckPoint = (checkpointId) => async (dispatch) => {
   }
 };
 
-export const updateCheckpoint = (checkpointId, newCheckpoint) => async (dispatch) => {
+export const updateCheckpoint =
+  (checkpointId, newCheckpoint) => async (dispatch) => {
     try {
       const res = await axios.put(
         `/checkpoint/updateCheckpoint/${checkpointId}`,
@@ -170,3 +174,35 @@ export const updateCheckpoint = (checkpointId, newCheckpoint) => async (dispatch
       console.log(error);
     }
   };
+
+export const registerScore =
+  (studentId, studentName, studentScore) => async (dispatch) => {
+    try {
+      const res = await axios.post("/score/registerScore", {
+        studentScore: studentScore,
+        studentId: studentId,
+        studentName: studentName,
+      });
+      dispatch({ type: REGIDTER_STUDENT_SCORE, payload: res.data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const showScores = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/score/showScores");
+    dispatch({ type: SHOW_SCORES, payload: res.data.scores });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const showStudentScore = (userName) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/score/showStudentScore/${userName}`);
+    dispatch({ type: SHOW_STUDENT_SCORE, payload: res.data.studentScore });
+  } catch (error) {
+    console.error(error);
+  }
+};

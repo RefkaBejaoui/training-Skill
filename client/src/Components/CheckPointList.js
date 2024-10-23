@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCheckPoint, deleteCheckPoint } from "../Redux/action";
+import { getCheckPoint, deleteCheckPoint, registerScore } from "../Redux/action";
 import Form from "react-bootstrap/Form";
 import UpdateCheckPoint from "./UpdateCheckPoint";
 import Table from "react-bootstrap/Table";
@@ -9,14 +9,13 @@ import { useNavigate } from "react-router-dom";
 
 function CheckPontList() {
   const theCheckPoint = useSelector((state) => state.checkPoint);
-
   const theCurrentUser = useSelector((state) => state.user);
   const admin = theCurrentUser.role;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedOptions, setSelectedOptions] = useState({});
-  const [score, setScore] = useState(0);
-  const length = theCheckPoint.length;
+  const [hasSubmitted , setHasSubmitted] = useState(false)
+
   useEffect(() => {
     dispatch(getCheckPoint());
   }, [dispatch]);
@@ -38,22 +37,38 @@ function CheckPontList() {
   };
 
   const handleCheckboxChange = (questionId, option) => {
-    setSelectedOptions((x) => ({
-      ...x,
-      [questionId]: option,
-    }));
+    setSelectedOptions((SelectedOptions) => {
+      const newSelectedOptions = { ...SelectedOptions };
+      if (newSelectedOptions[questionId]?.includes(option)) {
+        newSelectedOptions[questionId] = newSelectedOptions[questionId].filter(theOption => theOption !== option);
+      } else {
+        newSelectedOptions[questionId] = [...(newSelectedOptions[questionId] || []), option];
+      }
+      return newSelectedOptions;
+    });
   };
-
+  
   const submitResponse = () => {
+    if (hasSubmitted) {
     let newScore = 0;
     theCheckPoint.forEach((checkPoint) => {
-      if (selectedOptions[checkPoint._id] === checkPoint.correctAnswer) {
-        newScore += 1;
+      const selected = selectedOptions[checkPoint._id] || [];
+      if (Array.isArray(selected) && Array.isArray(checkPoint.correctAnswer)) {
+        const allCorrect = checkPoint.correctAnswer.every(answer => selected.includes(answer));
+        const tooManySelected = selected.length > checkPoint.correctAnswer.length;
+        if (allCorrect && !tooManySelected) {
+        newScore += 1
       }
+    }
     });
-    setScore(newScore);
-    alert(`Your score is: ${newScore}/ ${length} `);
+    console.log("submitting score" , newScore)
+    dispatch(registerScore(theCurrentUser._id ,theCurrentUser.userName , newScore))}
+    setHasSubmitted(true)
+    alert("Sorry, you have already submitted this test.");
+    navigate("/studentDashBoard/studentScore")
+    window.scrollTo(0, 0)
   };
+        
   return (
     <>
       <h2
@@ -75,13 +90,15 @@ function CheckPontList() {
         </Button>
       )}
       <hr style={{ height: "2px", backgroundColor: "white", border: "none" }} />
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover variant="dark" style={{width : "97%"}}>
         <thead>
           <tr>
             <th>#</th>
             <th>Question</th>
             <th>Options</th>
-            <th>Actions</th>
+            {admin === "admin" && <th>Actions</th>}
+            {admin === "student" && <th>Correction</th>}
+            
           </tr>
         </thead>
         <tbody>
@@ -103,6 +120,7 @@ function CheckPontList() {
                             type="checkbox"
                             id={`default-checkbox-${index}`}
                             label={option}
+                            checked={selectedOptions[el._id]?.includes(option) || false}
                             onChange={() =>
                               handleCheckboxChange(el._id, option)
                             }

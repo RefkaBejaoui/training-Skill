@@ -72,7 +72,7 @@ function AdminDashBoard() {
                 </ListGroup.Item>
               </Link>
             </ListGroup>
-            <Link to="" style={{ textDecoration: "none" }}>
+            <Link to="studentScores" style={{ textDecoration: "none" }}>
               <ListGroup.Item
                 style={{ paddingBottom: 10 , paddingLeft:18}}
                 action
