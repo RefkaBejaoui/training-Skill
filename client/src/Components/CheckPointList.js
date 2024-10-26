@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCheckPoint, deleteCheckPoint, registerScore } from "../Redux/action";
+import { getCheckPoint, deleteCheckPoint, registerScore , showStudentResponse,registerResponseStudent} from "../Redux/action";
 import Form from "react-bootstrap/Form";
 import UpdateCheckPoint from "./UpdateCheckPoint";
 import Table from "react-bootstrap/Table";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 function CheckPontList() {
   const theCheckPoint = useSelector((state) => state.checkPoint);
   const theCurrentUser = useSelector((state) => state.user);
+  // const studentResponse = useSelector((state)=> state.response)
   const admin = theCurrentUser.role;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,28 +48,53 @@ function CheckPontList() {
       return newSelectedOptions;
     });
   };
-  
-  const submitResponse = () => {
-    if (hasSubmitted) {
-    let newScore = 0;
-    theCheckPoint.forEach((checkPoint) => {
-      const selected = selectedOptions[checkPoint._id] || [];
-      if (Array.isArray(selected) && Array.isArray(checkPoint.correctAnswer)) {
-        const allCorrect = checkPoint.correctAnswer.every(answer => selected.includes(answer));
-        const tooManySelected = selected.length > checkPoint.correctAnswer.length;
-        if (allCorrect && !tooManySelected) {
-        newScore += 1
-      }
+
+  const submitResponse = async () => {
+  const studentResponse = await dispatch(showStudentResponse(theCurrentUser.userName))
+     if( studentResponse){
+      alert("Sorry, you have already submitted this test.");
+      return;
     }
-    });
-    console.log("submitting score" , newScore)
-    dispatch(registerScore(theCurrentUser._id ,theCurrentUser.userName , newScore))}
-    setHasSubmitted(true)
-    alert("Sorry, you have already submitted this test.");
-    navigate("/studentDashBoard/studentScore")
-    window.scrollTo(0, 0)
-  };
-        
+  
+   const allCheckPoints = theCheckPoint.map(checkPoint => ({
+      checkPointId: checkPoint._id,
+      question: checkPoint.question,
+      options: checkPoint.options,
+      correctAnswer: checkPoint.correctAnswer
+    }));
+   const selectedOptionsForAll = theCheckPoint.map(checkPoint=>selectedOptions[checkPoint._id]||[])
+
+ if(selectedOptionsForAll.some(res => res.length === 0)) {
+    alert("you have to pass all the tests");
+  return;}
+ 
+    dispatch(registerResponseStudent(
+      theCurrentUser._id,
+      theCurrentUser.userName,
+      allCheckPoints,
+      selectedOptionsForAll,)
+    );
+    
+    setHasSubmitted(true);
+    alert("you have submitted this test ");
+  
+    // let newScore = 0;
+    // theCheckPoint.forEach((checkPoint) => {
+    //   const selected = selectedOptions[checkPoint._id] || [];
+    //   if (Array.isArray(selected) && Array.isArray(checkPoint.correctAnswer)) {
+    //     const allCorrect = checkPoint.correctAnswer.every(answer => selected.includes(answer));
+    //     const tooManySelected = selected.length > checkPoint.correctAnswer.length;
+    //     if (allCorrect && !tooManySelected) {
+    //       newScore += 1;
+    //     }
+    //   }
+    // });
+    //dispatch(registerScore(theCurrentUser._id, theCurrentUser.userName));
+    navigate("/studentDashBoard/studentScore");
+    window.scrollTo(0, 0);
+}
+  
+  
   return (
     <>
       <h2

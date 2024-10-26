@@ -51,7 +51,7 @@ function StudentDashBoard() {
                   className="d-flex justify-content-between align-items-start"
                 >
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">check Points</div>
+                    <div className="fw-bold">Check Points</div>
                   </div>
                 </ListGroup.Item>
               </Link>

@@ -1,12 +1,15 @@
 import Table from "react-bootstrap/Table";
-import { showScores, showStudentScore } from "../Redux/action";
+import { showScores, showStudentResponse, showStudentScore } from "../Redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import Button from "react-bootstrap/Button";
 
 function Score() {
-  const theStudentScore = useSelector((state) => state.score)|| {};
+  const theStudentScore = useSelector((state) => state.score) || {};
   const theCurrentUser = useSelector((state) => state.user);
   const theCheckPoint = useSelector((state) => state.checkPoint);
+  //const studentResponse = useSelector((state)=> state.response)
+  //console.log(studentResponse.studentResponses)
   const student = theCurrentUser.role;
   const length = theCheckPoint.length;
   const dispatch = useDispatch();
@@ -17,7 +20,14 @@ function Score() {
     } else {
       dispatch(showScores());
     }
-  }, [dispatch, student, theCurrentUser.userName ]);
+  }, [dispatch, student, theCurrentUser.userName]);
+
+const showStudentCheckPoint = () => {
+dispatch(showStudentResponse(theCurrentUser.userName))
+
+}
+
+
   return (
     <>
       <h2
@@ -33,18 +43,27 @@ function Score() {
       <Table striped bordered hover variant="dark" style={{ width: "97%" }}>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Student name</th>
-            <th>Score</th>
-            <th>Total checkPoints</th>
+            {student === "student" ? (
+              <>
+                <th>Student name</th>
+                <th>Score</th>
+                <th>Total checkPoints</th>
+                <th>Correction</th>
+              </>
+            ) : (
+              <>
+                <th>#</th>
+                <th>Student name</th>
+                <th>Score</th>
+                <th>Total checkPoints</th>
+                <th>Response</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
           {student === "student" ? (
             <tr>
-              <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-              1
-              </td>
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                 {theCurrentUser.userName}
               </td>
@@ -54,22 +73,28 @@ function Score() {
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                 {length}
               </td>
+              <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                {}
+              </td>
             </tr>
           ) : (
-            Array.isArray(theStudentScore) && theStudentScore.map((score, index) => (
+            Array.isArray(theStudentScore) &&
+            theStudentScore.map((score, index) => (
               <tr key={index}>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                   {index + 1}
                 </td>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-
-                  {score.studentName }
+                  {score.studentName}
                 </td>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                   {score.studentScore}
                 </td>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                {length}
+                  {length}
+                </td>
+                <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                {<Button variant="outline-info" onClick={showStudentCheckPoint}>Show response</Button>}
               </td>
               </tr>
             ))

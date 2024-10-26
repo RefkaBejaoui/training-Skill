@@ -18,6 +18,8 @@ import {
   REGIDTER_STUDENT_SCORE,
   SHOW_SCORES,
   SHOW_STUDENT_SCORE,
+  REGISTER_RESPONSE_STUDENT,
+  SHOW_STUDENT_RESPONSE,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -175,19 +177,19 @@ export const updateCheckpoint =
     }
   };
 
-export const registerScore =
-  (studentId, studentName, studentScore) => async (dispatch) => {
-    try {
-      const res = await axios.post("/score/registerScore", {
-        studentScore: studentScore,
-        studentId: studentId,
-        studentName: studentName,
-      });
-      dispatch({ type: REGIDTER_STUDENT_SCORE, payload: res.data });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+export const registerScore = (studentId, studentName) => async (dispatch) => {
+  try {
+    const res = await axios.post("/score/registerScore", {
+      //studentScore: studentScore,
+      studentId: studentId,
+      studentName: studentName,
+      //studentResponsesId: studentResponsesId,
+    });
+    dispatch({ type: REGIDTER_STUDENT_SCORE, payload: res.data });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const showScores = () => async (dispatch) => {
   try {
@@ -204,5 +206,35 @@ export const showStudentScore = (userName) => async (dispatch) => {
     dispatch({ type: SHOW_STUDENT_SCORE, payload: res.data.studentScore });
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const registerResponseStudent =
+  (studentId, studentName, checkPointQuestions, studentResponses) =>
+  async (dispatch) => {
+    try {
+      const res = await axios.post("/response/registerResponseStudent", {
+        studentId: studentId,
+        studentName: studentName,
+        checkPointQuestions: checkPointQuestions,
+        studentResponses: studentResponses,
+      });
+      dispatch({ type: REGISTER_RESPONSE_STUDENT, payload: res.data });
+    } catch (error) {
+      console.error("error in dispatshing responses", error);
+    }
+  };
+
+export const showStudentResponse = (userName) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/response/showStudentResponse/${userName}`);
+    dispatch({
+      type: SHOW_STUDENT_RESPONSE,
+      payload: res.data.studentResponse,
+    });
+    return res.data.studentResponse;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 };

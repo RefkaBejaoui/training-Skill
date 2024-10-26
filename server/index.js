@@ -22,6 +22,9 @@ app.use("/checkPoint", routerCheckPoint);
 const routerScore = require("./routes/score");
 app.use("/score", routerScore)
 
+const routerResponse = require("./routes/response");
+app.use("/response", routerResponse)
+
 app.get('*' , (req,res) => {
   res.sendFile(path.join(__dirname,'build','index.html'))
 })

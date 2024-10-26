@@ -18,6 +18,8 @@ import {
   REGIDTER_STUDENT_SCORE,
   SHOW_STUDENT_SCORE,
   SHOW_SCORES,
+  REGISTER_RESPONSE_STUDENT,
+  SHOW_STUDENT_RESPONSE,
 } from "./actionTypes";
 
 const initialState = {
@@ -28,6 +30,7 @@ const initialState = {
   image: null,
   checkPoint: [],
   score: 0,
+  response: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -95,6 +98,13 @@ const reducer = (state = initialState, action) => {
 
     case SHOW_SCORES:
       return { ...state, score: action.payload };
+
+    case REGISTER_RESPONSE_STUDENT:
+      return { ...state, response: action.payload.newResponse };
+
+    case SHOW_STUDENT_RESPONSE:
+      return { ...state, response: action.payload };
+
     default:
       return state;
   }

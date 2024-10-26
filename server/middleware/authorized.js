@@ -2,7 +2,7 @@ const JWT = require("jsonwebtoken")
 const User = require("../models/userSchema")
 
 
-const authorized = async (req,res , next) => {
+const authorized = async (req, res, next) => {
     const token = req.headers["autorisation"]
     if(!token) {
         res.send({msg:"Sorry there is no token"})
