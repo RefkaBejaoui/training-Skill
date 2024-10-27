@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-//import Alert from "react-bootstrap/Alert"
 
 function Login() {
   const theCurrentUser  = useSelector((state) => state.user);

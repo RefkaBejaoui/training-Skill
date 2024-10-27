@@ -164,8 +164,7 @@ export const deleteCheckPoint = (checkpointId) => async (dispatch) => {
   }
 };
 
-export const updateCheckpoint =
-  (checkpointId, newCheckpoint) => async (dispatch) => {
+export const updateCheckpoint =(checkpointId, newCheckpoint) => async (dispatch) => {
     try {
       const res = await axios.put(
         `/checkpoint/updateCheckpoint/${checkpointId}`,
@@ -180,10 +179,8 @@ export const updateCheckpoint =
 export const registerScore = (studentId, studentName) => async (dispatch) => {
   try {
     const res = await axios.post("/score/registerScore", {
-      //studentScore: studentScore,
       studentId: studentId,
       studentName: studentName,
-      //studentResponsesId: studentResponsesId,
     });
     dispatch({ type: REGIDTER_STUDENT_SCORE, payload: res.data });
   } catch (error) {
@@ -209,8 +206,7 @@ export const showStudentScore = (userName) => async (dispatch) => {
   }
 };
 
-export const registerResponseStudent =
-  (studentId, studentName, checkPointQuestions, studentResponses) =>
+export const registerResponseStudent =(studentId, studentName, checkPointQuestions, studentResponses) =>
   async (dispatch) => {
     try {
       const res = await axios.post("/response/registerResponseStudent", {
@@ -238,3 +234,4 @@ export const showStudentResponse = (userName) => async (dispatch) => {
     return null;
   }
 };
+

@@ -10,12 +10,10 @@ import { useNavigate } from "react-router-dom";
 function CheckPontList() {
   const theCheckPoint = useSelector((state) => state.checkPoint);
   const theCurrentUser = useSelector((state) => state.user);
-  // const studentResponse = useSelector((state)=> state.response)
   const admin = theCurrentUser.role;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedOptions, setSelectedOptions] = useState({});
-  const [hasSubmitted , setHasSubmitted] = useState(false)
 
   useEffect(() => {
     dispatch(getCheckPoint());
@@ -55,41 +53,26 @@ function CheckPontList() {
       alert("Sorry, you have already submitted this test.");
       return;
     }
-  
-   const allCheckPoints = theCheckPoint.map(checkPoint => ({
+  const allCheckPoints = theCheckPoint.map(checkPoint => ({
       checkPointId: checkPoint._id,
       question: checkPoint.question,
       options: checkPoint.options,
       correctAnswer: checkPoint.correctAnswer
     }));
-   const selectedOptionsForAll = theCheckPoint.map(checkPoint=>selectedOptions[checkPoint._id]||[])
+  const selectedOptionsForAll = theCheckPoint.map(checkPoint=>selectedOptions[checkPoint._id]||[])
 
- if(selectedOptionsForAll.some(res => res.length === 0)) {
+if(selectedOptionsForAll.some(res => res.length === 0)) {
     alert("you have to pass all the tests");
   return;}
- 
+
     dispatch(registerResponseStudent(
       theCurrentUser._id,
       theCurrentUser.userName,
       allCheckPoints,
       selectedOptionsForAll,)
     );
-    
-    setHasSubmitted(true);
     alert("you have submitted this test ");
-  
-    // let newScore = 0;
-    // theCheckPoint.forEach((checkPoint) => {
-    //   const selected = selectedOptions[checkPoint._id] || [];
-    //   if (Array.isArray(selected) && Array.isArray(checkPoint.correctAnswer)) {
-    //     const allCorrect = checkPoint.correctAnswer.every(answer => selected.includes(answer));
-    //     const tooManySelected = selected.length > checkPoint.correctAnswer.length;
-    //     if (allCorrect && !tooManySelected) {
-    //       newScore += 1;
-    //     }
-    //   }
-    // });
-    //dispatch(registerScore(theCurrentUser._id, theCurrentUser.userName));
+    dispatch(registerScore(theCurrentUser._id, theCurrentUser.userName));
     navigate("/studentDashBoard/studentScore");
     window.scrollTo(0, 0);
 }

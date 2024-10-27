@@ -13,7 +13,6 @@ function NavBar() {
   const navigate = useNavigate();
   const theCurrentUser = useSelector((state) => state.user);
   const [showLogin, setShowLogin] = useState(false);
-  // const [showCourseListButton, setShowCourseListButton] = useState(false);
 
   useEffect(() => {
     dispatch(showUserName());

@@ -1,18 +1,20 @@
 import Table from "react-bootstrap/Table";
-import { showScores, showStudentResponse, showStudentScore } from "../Redux/action";
+import { showScores, showStudentScore } from "../Redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+
 
 function Score() {
   const theStudentScore = useSelector((state) => state.score) || {};
   const theCurrentUser = useSelector((state) => state.user);
   const theCheckPoint = useSelector((state) => state.checkPoint);
-  //const studentResponse = useSelector((state)=> state.response)
-  //console.log(studentResponse.studentResponses)
+  
   const student = theCurrentUser.role;
   const length = theCheckPoint.length;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (student === "student") {
@@ -23,8 +25,7 @@ function Score() {
   }, [dispatch, student, theCurrentUser.userName]);
 
 const showStudentCheckPoint = () => {
-dispatch(showStudentResponse(theCurrentUser.userName))
-
+navigate("/adminDashBoard/checkPointList/correction")
 }
 
 
@@ -94,8 +95,9 @@ dispatch(showStudentResponse(theCurrentUser.userName))
                   {length}
                 </td>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                {<Button variant="outline-info" onClick={showStudentCheckPoint}>Show response</Button>}
-              </td>
+                <Button variant="outline-info" onClick={showStudentCheckPoint}>Show response</Button>
+                </td>
+               
               </tr>
             ))
           )}

@@ -12,8 +12,6 @@ const responseSchema = new mongoose.Schema({
     correctAnswer: { type: [String], required: true }
   }],
   studentResponses: { type: [[String]], required: true },
-  
-  // // score: { type: Number, required: true } // Uncomment if needed
 });
 
 const Response = mongoose.model("Response", responseSchema);

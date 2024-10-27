@@ -14,6 +14,7 @@ import CourseDetails from "./Components/CourseDetails";
 import Profile from "./Components/Profile";
 import AddCheckPoint from "./Components/AddCheckPoint";
 import Score from "./Components/Score";
+import Correction from "./Components/Correction";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             path="/adminDashBoard/profile"
             element={<Profile/>}
           />
+          <Route path="/adminDashBoard/checkPointList/correction" element={<Correction/>}/>
            <Route path="/adminDashBoard/studentScores" element={<Score/>}/>
         </Route>
         <Route path="/studentDashBoard" element={<StudentDashBoard />}>
