@@ -66,4 +66,22 @@ router.get("/showStudentResponse/:userName", async (req, res) => {
       });
   }
 });
+
+router.delete("/deletingResponses/:id"), async(req,res) => {
+  try {
+    const {id} = req.params;
+    console.log("Deleting response with id:", id)
+    const deletedResponse = await Response.findByIdAndDelete(id);
+console.log("gfhfgffg")
+    if (!deletedResponse) {
+      return res.status(404).send({ msg: "Response to delete is not found" });
+    }
+    res.send({ msg: "Response deleted succsessfully", deletedResponse });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ msg: "An error occurred while deleting the response", error });
+  }
+};
 module.exports = router;

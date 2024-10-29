@@ -6,23 +6,19 @@ const Response = require("../models/responseSchema");
 router.post("/registerScore", async (req, res) => {
   try {
     const { studentId, studentName } = req.body;
-    const studentResponse = await Response.findOne({ studentId: studentId });
-    console.log(studentResponse.studentResponses);
-    if (!studentResponse) {
-      return res.status(404).send({ msg: "Student responses not found" });
-    }
+    const existingScore = await Score.findOne({studentName: studentName})
+    const studentResponse = await Response.findOne({ studentName: studentName });
+    if (!studentResponse || existingScore) {
+      return res.status(404).send({ msg: "Student responses not found" });}
     let studentScore = 0;
     studentResponse.checkPointQuestions.forEach((checkPointQuestion, index) => {
       const selectedResponses = studentResponse.studentResponses[index];
       const allCorrect = checkPointQuestion.correctAnswer.every((answer) =>
-        selectedResponses.includes(answer)
-      );
+        selectedResponses.includes(answer));
       const tooManySelected =
         selectedResponses.length > checkPointQuestion.correctAnswer.length;
-
       if (allCorrect && !tooManySelected) {
-        studentScore += 1;
-      }
+        studentScore += 1;}
     });
     const newScore = new Score({
       studentScore: studentScore,
@@ -30,7 +26,6 @@ router.post("/registerScore", async (req, res) => {
       studentName: studentName,
       studentResponsesId: studentResponse._id,
     });
-
     await newScore.save();
     res.send({ msg: "Student score registered successfully", newScore });
   } catch (error) {
@@ -61,6 +56,7 @@ router.get("/showStudentScore/:userName", async (req, res) => {
       return res.status(404).send({ msg: "Score not found for this student" });
     }
     res.send({ msg: "Student score retrieved successfully", studentScore });
+
   } catch (error) {
     console.error(error);
     res
@@ -68,5 +64,22 @@ router.get("/showStudentScore/:userName", async (req, res) => {
       .send({ msg: "An error occurred while retrieving student score", error });
   }
 });
+
+router.delete("/deletingScores/:id"), async (req, res) => {
+  try {
+    const {id} = req.params;
+    const deletedScore = await Score.findByIdAndDelete(id);
+
+    if (!deletedScore) {
+      return res.status(404).send({ msg: "score to delete is not found" });
+    }
+    res.send({ msg: "score deleted succsessfully", deletedScore });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ msg: "An error occurred while deleting the score", error });
+  }
+};
 
 module.exports = router;

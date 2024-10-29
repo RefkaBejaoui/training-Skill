@@ -41,7 +41,7 @@ function App() {
             path="/adminDashBoard/profile"
             element={<Profile/>}
           />
-          <Route path="/adminDashBoard/checkPointList/correction" element={<Correction/>}/>
+          <Route path="/adminDashBoard/correction" element={<Correction/>}/>
            <Route path="/adminDashBoard/studentScores" element={<Score/>}/>
         </Route>
         <Route path="/studentDashBoard" element={<StudentDashBoard />}>
@@ -55,6 +55,7 @@ function App() {
             element={<Profile/>}
           />
           <Route path="/studentDashBoard/studentScore" element={<Score/>}/>
+          <Route path="/studentDashBoard/correction" element={<Correction/>}/>
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<HomePage />} />

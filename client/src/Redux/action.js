@@ -20,6 +20,9 @@ import {
   SHOW_STUDENT_SCORE,
   REGISTER_RESPONSE_STUDENT,
   SHOW_STUDENT_RESPONSE,
+  SHOW_ALL_RESPONSES,
+  CLEAR_STUDENT_RESPONSE,
+  CLEAR_STUDENT_SCORE,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -164,7 +167,8 @@ export const deleteCheckPoint = (checkpointId) => async (dispatch) => {
   }
 };
 
-export const updateCheckpoint =(checkpointId, newCheckpoint) => async (dispatch) => {
+export const updateCheckpoint =
+  (checkpointId, newCheckpoint) => async (dispatch) => {
     try {
       const res = await axios.put(
         `/checkpoint/updateCheckpoint/${checkpointId}`,
@@ -201,8 +205,10 @@ export const showStudentScore = (userName) => async (dispatch) => {
   try {
     const res = await axios.get(`/score/showStudentScore/${userName}`);
     dispatch({ type: SHOW_STUDENT_SCORE, payload: res.data.studentScore });
+    return res.date.studentScore
   } catch (error) {
     console.error(error);
+    return null
   }
 };
 
@@ -228,10 +234,38 @@ export const showStudentResponse = (userName) => async (dispatch) => {
       type: SHOW_STUDENT_RESPONSE,
       payload: res.data.studentResponse,
     });
-    return res.data.studentResponse;
+    return res.data.studentResponse
   } catch (error) {
     console.error(error);
-    return null;
+    return null
   }
 };
 
+export const showAllResponses = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/response/showResponse");
+    dispatch({ type: SHOW_ALL_RESPONSES, payload: res.data.response });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteStudentResponse = (studentId) => async (dispatch) => {
+  try {
+    await axios.delete(`/response/deletingResponses/${studentId}`);
+
+    dispatch({ type: CLEAR_STUDENT_RESPONSE, payload: studentId });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteStudentScore = (studentId) => async (dispatch) => {
+  try {
+    await axios.delete(`/score/deletingScore/${studentId}`);
+
+    dispatch({ type: CLEAR_STUDENT_SCORE, payload: studentId });
+  } catch (error) {
+    console.error(error);
+  }
+};

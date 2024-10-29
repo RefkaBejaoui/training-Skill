@@ -1,34 +1,52 @@
 import Table from "react-bootstrap/Table";
-import { showScores, showStudentScore } from "../Redux/action";
+import {
+  showAllResponses,
+  showScores,
+  showStudentResponse,
+  showStudentScore,
+} from "../Redux/action";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-
 
 function Score() {
   const theStudentScore = useSelector((state) => state.score) || {};
   const theCurrentUser = useSelector((state) => state.user);
   const theCheckPoint = useSelector((state) => state.checkPoint);
-  
   const student = theCurrentUser.role;
   const length = theCheckPoint.length;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const pollingInterval = useRef(null)
 
   useEffect(() => {
     if (student === "student") {
       dispatch(showStudentScore(theCurrentUser.userName));
     } else {
       dispatch(showScores());
+      dispatch(showAllResponses());
     }
+    pollingInterval.current = setInterval(()=>{
+      if (student === "student") {
+        dispatch(showStudentScore(theCurrentUser.userName));
+      } else {
+        dispatch(showScores());
+        dispatch(showAllResponses());
+      }
+    },5000);
+    return()=> clearInterval(pollingInterval.current)
   }, [dispatch, student, theCurrentUser.userName]);
 
-const showStudentCheckPoint = () => {
-navigate("/adminDashBoard/checkPointList/correction")
-}
-
-
+  const showStudentCheckPoint = (studentName) => {
+    if (student === "student") {
+      navigate("/studentDashBoard/correction");
+    } else {
+      dispatch(showStudentResponse(studentName)).then(() => {
+        navigate("/adminDashBoard/correction", { state: {studentName } });
+      });
+    }
+  };
   return (
     <>
       <h2
@@ -46,6 +64,7 @@ navigate("/adminDashBoard/checkPointList/correction")
           <tr>
             {student === "student" ? (
               <>
+              <th>#</th>
                 <th>Student name</th>
                 <th>Score</th>
                 <th>Total checkPoints</th>
@@ -62,8 +81,18 @@ navigate("/adminDashBoard/checkPointList/correction")
             )}
           </tr>
         </thead>
-        <tbody>
-          {student === "student" ? (
+       
+          <tbody>
+          {Object.keys(theStudentScore).length === 0 ? (
+          <tr>
+          <td style={{ textAlign: "center", verticalAlign: "middle" }}> </td>
+           <td style={{ textAlign: "center", verticalAlign: "middle" }}> </td>
+           <td style={{ textAlign: "center", verticalAlign: "middle" }}></td>
+           <td style={{ textAlign: "center", verticalAlign: "middle" }}></td>
+           <td style={{ textAlign: "center", verticalAlign: "middle" }}></td>
+           </tr>
+          
+        ): student === "student" ? (
             <tr>
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                 {theCurrentUser.userName}
@@ -75,11 +104,16 @@ navigate("/adminDashBoard/checkPointList/correction")
                 {length}
               </td>
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                {}
+                <Button
+                  variant="outline-info"
+                  onClick={() => showStudentCheckPoint(theCurrentUser.userName)}
+                >
+                  Show response
+                </Button>
               </td>
             </tr>
           ) : (
-            Array.isArray(theStudentScore) &&
+           Array.isArray(theStudentScore) &&
             theStudentScore.map((score, index) => (
               <tr key={index}>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
@@ -95,12 +129,16 @@ navigate("/adminDashBoard/checkPointList/correction")
                   {length}
                 </td>
                 <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                <Button variant="outline-info" onClick={showStudentCheckPoint}>Show response</Button>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => showStudentCheckPoint(score.studentName)}
+                  >
+                    Show response
+                  </Button>
                 </td>
-               
               </tr>
             ))
-          )}
+            )}
         </tbody>
       </Table>
     </>

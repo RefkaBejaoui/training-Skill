@@ -20,6 +20,9 @@ import {
   SHOW_SCORES,
   REGISTER_RESPONSE_STUDENT,
   SHOW_STUDENT_RESPONSE,
+  SHOW_ALL_RESPONSES,
+  CLEAR_STUDENT_RESPONSE,
+  CLEAR_STUDENT_SCORE,
 } from "./actionTypes";
 
 const initialState = {
@@ -34,6 +37,7 @@ const initialState = {
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case REGISTER_USER:
       return { ...state, user: action.payload.newUser };
     case LOGIN_USER:
@@ -86,24 +90,25 @@ const reducer = (state = initialState, action) => {
       };
     case UPDATE_CHECKPOINT:
       return { ...state, checkPoint: action.payload };
-
     case REGIDTER_STUDENT_SCORE:
       return { ...state, score: action.payload.newScore };
-
     case SHOW_STUDENT_SCORE:
       return {
         ...state,
         score: action.payload,
       };
-
     case SHOW_SCORES:
       return { ...state, score: action.payload };
-
     case REGISTER_RESPONSE_STUDENT:
       return { ...state, response: action.payload.newResponse };
-
     case SHOW_STUDENT_RESPONSE:
       return { ...state, response: action.payload };
+    case SHOW_ALL_RESPONSES:
+      return { ...state, response: action.payload };
+    case CLEAR_STUDENT_RESPONSE:
+      return state.filter((response) => response.studentId !== action.payload);
+    case CLEAR_STUDENT_SCORE:
+      return state.filter((score) => score.studentId !== action.payload);
 
     default:
       return state;

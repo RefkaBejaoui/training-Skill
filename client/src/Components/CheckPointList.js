@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCheckPoint, deleteCheckPoint, registerScore , showStudentResponse,registerResponseStudent} from "../Redux/action";
+import {
+  getCheckPoint,
+  deleteCheckPoint,
+  registerScore,
+  showStudentResponse,
+  registerResponseStudent,
+  showStudentScore,
+} from "../Redux/action";
 import Form from "react-bootstrap/Form";
 import UpdateCheckPoint from "./UpdateCheckPoint";
 import Table from "react-bootstrap/Table";
@@ -39,45 +46,62 @@ function CheckPontList() {
     setSelectedOptions((SelectedOptions) => {
       const newSelectedOptions = { ...SelectedOptions };
       if (newSelectedOptions[questionId]?.includes(option)) {
-        newSelectedOptions[questionId] = newSelectedOptions[questionId].filter(theOption => theOption !== option);
+        newSelectedOptions[questionId] = newSelectedOptions[questionId].filter(
+          (theOption) => theOption !== option
+        );
       } else {
-        newSelectedOptions[questionId] = [...(newSelectedOptions[questionId] || []), option];
+        newSelectedOptions[questionId] = [
+          ...(newSelectedOptions[questionId] || []),
+          option,
+        ];
       }
       return newSelectedOptions;
     });
   };
 
   const submitResponse = async () => {
-  const studentResponse = await dispatch(showStudentResponse(theCurrentUser.userName))
-     if( studentResponse){
-      alert("Sorry, you have already submitted this test.");
+    const existingResponse = await dispatch(
+      showStudentResponse(theCurrentUser.userName)
+    );
+    const existingScore = await dispatch(
+      showStudentScore(theCurrentUser.userName)
+    );
+
+    if (existingResponse || existingScore) {
+      alert("Sorry, you can't repass the test.");
       return;
     }
-  const allCheckPoints = theCheckPoint.map(checkPoint => ({
+
+    const allCheckPoints = theCheckPoint.map((checkPoint) => ({
       checkPointId: checkPoint._id,
       question: checkPoint.question,
       options: checkPoint.options,
-      correctAnswer: checkPoint.correctAnswer
+      correctAnswer: checkPoint.correctAnswer,
     }));
-  const selectedOptionsForAll = theCheckPoint.map(checkPoint=>selectedOptions[checkPoint._id]||[])
 
-if(selectedOptionsForAll.some(res => res.length === 0)) {
-    alert("you have to pass all the tests");
-  return;}
-
-    dispatch(registerResponseStudent(
-      theCurrentUser._id,
-      theCurrentUser.userName,
-      allCheckPoints,
-      selectedOptionsForAll,)
+    const selectedOptionsForAll = theCheckPoint.map(
+      (checkPoint) => selectedOptions[checkPoint._id] || []
     );
-    alert("you have submitted this test ");
-    dispatch(registerScore(theCurrentUser._id, theCurrentUser.userName));
+    if (selectedOptionsForAll.some((res) => res.length === 0)) {
+      alert("You have to pass all the tests.");
+      return;
+    }
+
+    await dispatch(
+      registerResponseStudent(
+        theCurrentUser._id,
+        theCurrentUser.userName,
+        allCheckPoints,
+        selectedOptionsForAll
+      )
+    );
+
+    await dispatch(registerScore(theCurrentUser._id, theCurrentUser.userName));
+    alert("You have submitted this test.");
     navigate("/studentDashBoard/studentScore");
     window.scrollTo(0, 0);
-}
-  
-  
+  };
+
   return (
     <>
       <h2
@@ -99,7 +123,7 @@ if(selectedOptionsForAll.some(res => res.length === 0)) {
         </Button>
       )}
       <hr style={{ height: "2px", backgroundColor: "white", border: "none" }} />
-      <Table striped bordered hover variant="dark" style={{width : "97%"}}>
+      <Table striped bordered hover variant="dark" style={{ width: "97%" }}>
         <thead>
           <tr>
             <th>#</th>
@@ -107,7 +131,6 @@ if(selectedOptionsForAll.some(res => res.length === 0)) {
             <th>Options</th>
             {admin === "admin" && <th>Actions</th>}
             {admin === "student" && <th>Correction</th>}
-            
           </tr>
         </thead>
         <tbody>
@@ -129,7 +152,9 @@ if(selectedOptionsForAll.some(res => res.length === 0)) {
                             type="checkbox"
                             id={`default-checkbox-${index}`}
                             label={option}
-                            checked={selectedOptions[el._id]?.includes(option) || false}
+                            checked={
+                              selectedOptions[el._id]?.includes(option) || false
+                            }
                             onChange={() =>
                               handleCheckboxChange(el._id, option)
                             }
