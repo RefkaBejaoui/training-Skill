@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteStudentResponse,deleteStudentScore, showStudentResponse } from "../Redux/action";
+import { showStudentResponse } from "../Redux/action";
 import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+//import Button from "react-bootstrap/Button";
 
 function Correction({ selectedStudent }) {
   const theResponse = useSelector((state) => state.response);
   console.log(theResponse)
   const theCurrentUser = useSelector((state) => state.user);
   const theCheckPoint = useSelector((state) => state.checkPoint);
-  const theCheckPointCorrectAnswer = theCheckPoint.map(
-    (checkpoint) => checkpoint.correction
-  );
+  // const theCheckPointCorrectAnswer = theCheckPoint.map(
+  //   (checkpoint) => checkpoint.correction
+  // );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,20 +20,20 @@ function Correction({ selectedStudent }) {
     dispatch(showStudentResponse(studentName));
   }, [dispatch, selectedStudent, theCurrentUser.userName]);
 
-  const theID = theResponse.studentId
-  console.log(theID)
-const clearResponseAndScore = (theID) => {
-  if (theCurrentUser.role === "admin") {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete the student score and response?"
-    );
-    if (confirmed) {
-      dispatch(deleteStudentResponse(theID));
-      dispatch(deleteStudentScore(theID))
-    }
-  }
+//   const theID = theResponse.studentId
+//   console.log(theID)
+// const clearResponseAndScore = (theID) => {
+//   if (theCurrentUser.role === "admin") {
+//     const confirmed = window.confirm(
+//       "Are you sure you want to delete the student score and response?"
+//     );
+//     if (confirmed) {
+//       dispatch(deleteStudentResponse(theID));
+//       dispatch(deleteStudentScore(theID))
+//     }
+//   }
 
-}
+// }
 
   return (
     <>
@@ -45,9 +45,9 @@ const clearResponseAndScore = (theID) => {
           <tr>
             <th>#</th>
             <th>Question</th>
-            <th>Student responses</th>
+            <th>{theResponse.studentName}'s responses</th>
             <th>Right answer</th>
-            <th>Correction</th>
+            <th>Correction details</th>
           </tr>
         </thead>
         <tbody>
@@ -101,12 +101,13 @@ const clearResponseAndScore = (theID) => {
                     </Form>
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
-                    {theCheckPointCorrectAnswer.join(", ")}
-                    {theCurrentUser.role === "admin" && (
+                    {el.correction}
+                    {/* {theCheckPointCorrectAnswer.join(", ")} */}
+                    {/* {theCurrentUser.role === "admin" && (
         <Button variant="danger" onClick={() => clearResponseAndScore(theID)}>
-          delete all
+          update correction
         </Button>
-      )}
+      )} */}
                   </td>
                 </tr>
               );

@@ -11,6 +11,7 @@ function AddCheckPoint() {
   const [currentOption, setCurrentOption] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState([]);
   const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState("");
+  const [correction, setCorrection] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function AddCheckPoint() {
       question: question,
       options: options,
       correctAnswer: correctAnswer,
+      correction : correction
     };
     dispatch(addCheckPoint(newCheckPoint));
     setOptions([]);
@@ -146,7 +148,22 @@ function AddCheckPoint() {
             marginTop: 5,
           }}
         ></textarea>
-
+<Form.Label
+          style={{
+            fontSize: 20,
+            marginRight: 400,
+            fontWeight: "bold",
+            color: "#a3cae9",
+          }}
+        >
+         Correction details
+        </Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Correction details"
+          style={{ backgroundColor: "rgb(201, 215, 222)" }}
+          onChange={(e) => setCorrection(e.target.value)}
+        />
         <hr></hr>
         <Button
           variant="outline-info"

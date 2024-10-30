@@ -177,6 +177,7 @@ function CheckPontList() {
                             question={el.question}
                             options={el.options}
                             correctAnswer={el.correctAnswer}
+                            correction = {el.correction}
                           />
                           <Button
                             variant="outline-danger"

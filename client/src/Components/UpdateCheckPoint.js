@@ -20,11 +20,12 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function UpdateCheckPoint({ id, question, options, correctAnswer }) {
+function UpdateCheckPoint({ id, question, options, correctAnswer, correction }) {
   let subtitle;
   const [NewQuestion, setNewQuestion] = useState(question);
   const [NewOptions, setNewOptions] = useState([]);
   const [NewCorrectAnswers, setNewCorrectAnswers] = useState([]);
+  const [NewCorrection, setNewCorrection] = useState(correction);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [currentOption, setCurrentOption] = useState("");
   const [oldOption, setOldOption] = useState("");
@@ -34,7 +35,8 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
   useEffect(() => {
     setNewOptions(options);
     setNewCorrectAnswers(correctAnswer);
-  }, [options, correctAnswer]);
+    setNewCorrection(correction);
+  }, [options, correctAnswer, correction]);
 
   const dispatch = useDispatch();
 
@@ -57,6 +59,7 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
       question: NewQuestion,
       options: NewOptions,
       correctAnswer: NewCorrectAnswers,
+      correction : NewCorrection,
     };
     dispatch(updateCheckpoint(id, updatedCheckPoint));
     setNewOptions([options]);
@@ -184,7 +187,7 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
             </Button>
             <hr></hr>
             <label style={{ fontWeight: "bold" }}>
-              update currect answer{" "}
+              update correct answer{" "}
             </label>{" "}
             <br></br>
             <textarea
@@ -203,8 +206,7 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
               style={{ backgroundColor: "rgb(201, 215, 222)", marginRight: 5 }}
             />
             <Button onClick={handleAddCorrectAnswer} variant="success">
-              {" "}
-              Add answer{" "}
+              Add answer
             </Button>
             <Button
               type="button"
@@ -212,10 +214,20 @@ function UpdateCheckPoint({ id, question, options, correctAnswer }) {
               variant="danger"
             >
               Delete answer
-            </Button>
+            </Button> <br></br>
+            <label style={{ fontWeight: "bold" }}>Update correction details </label>
+            <br></br>
+            <input
+              size="70"
+              placeholder=" Correction details"
+              type="text"
+              style={{ backgroundColor: "rgb(201, 215, 222)" }}
+              value={NewCorrection}
+              onChange={(e) => setNewCorrection(e.target.value)}
+            />
             <hr></hr>
             <Button variant="outline-success" onClick={editCheckPoint}>
-              Edit course{" "}
+              Edit chechPoint
             </Button>
           </form>
           <Button variant="outline-danger" onClick={closeModal}>

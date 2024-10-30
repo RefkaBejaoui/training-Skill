@@ -68,7 +68,7 @@ function Score() {
                 <th>Student name</th>
                 <th>Score</th>
                 <th>Total checkPoints</th>
-                <th>Correction</th>
+                <th>Correction </th>
               </>
             ) : (
               <>
@@ -95,6 +95,9 @@ function Score() {
         ): student === "student" ? (
             <tr>
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                #
+              </td>
+              <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                 {theCurrentUser.userName}
               </td>
               <td style={{ textAlign: "center", verticalAlign: "middle" }}>
@@ -108,7 +111,7 @@ function Score() {
                   variant="outline-info"
                   onClick={() => showStudentCheckPoint(theCurrentUser.userName)}
                 >
-                  Show response
+                  Show responses correction
                 </Button>
               </td>
             </tr>

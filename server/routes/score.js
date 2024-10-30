@@ -65,21 +65,21 @@ router.get("/showStudentScore/:userName", async (req, res) => {
   }
 });
 
-router.delete("/deletingScores/:id"), async (req, res) => {
-  try {
-    const {id} = req.params;
-    const deletedScore = await Score.findByIdAndDelete(id);
+// router.delete("/deletingScores/:id"), async (req, res) => {
+//   try {
+//     const {id} = req.params;
+//     const deletedScore = await Score.findByIdAndDelete(id);
 
-    if (!deletedScore) {
-      return res.status(404).send({ msg: "score to delete is not found" });
-    }
-    res.send({ msg: "score deleted succsessfully", deletedScore });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .send({ msg: "An error occurred while deleting the score", error });
-  }
-};
+//     if (!deletedScore) {
+//       return res.status(404).send({ msg: "score to delete is not found" });
+//     }
+//     res.send({ msg: "score deleted succsessfully", deletedScore });
+//   } catch (error) {
+//     console.error(error);
+//     res
+//       .status(500)
+//       .send({ msg: "An error occurred while deleting the score", error });
+//   }
+// };
 
 module.exports = router;

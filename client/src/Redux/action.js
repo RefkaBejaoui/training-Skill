@@ -21,8 +21,8 @@ import {
   REGISTER_RESPONSE_STUDENT,
   SHOW_STUDENT_RESPONSE,
   SHOW_ALL_RESPONSES,
-  CLEAR_STUDENT_RESPONSE,
-  CLEAR_STUDENT_SCORE,
+  // CLEAR_STUDENT_RESPONSE,
+  // CLEAR_STUDENT_SCORE,
 } from "./actionTypes";
 
 import axios from "axios";
@@ -250,22 +250,22 @@ export const showAllResponses = () => async (dispatch) => {
   }
 };
 
-export const deleteStudentResponse = (studentId) => async (dispatch) => {
-  try {
-    await axios.delete(`/response/deletingResponses/${studentId}`);
+// export const deleteStudentResponse = (studentId) => async (dispatch) => {
+//   try {
+//     await axios.delete(`/response/deletingResponses/${studentId}`);
 
-    dispatch({ type: CLEAR_STUDENT_RESPONSE, payload: studentId });
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     dispatch({ type: CLEAR_STUDENT_RESPONSE, payload: studentId });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-export const deleteStudentScore = (studentId) => async (dispatch) => {
-  try {
-    await axios.delete(`/score/deletingScore/${studentId}`);
+// export const deleteStudentScore = (studentId) => async (dispatch) => {
+//   try {
+//     await axios.delete(`/score/deletingScore/${studentId}`);
 
-    dispatch({ type: CLEAR_STUDENT_SCORE, payload: studentId });
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     dispatch({ type: CLEAR_STUDENT_SCORE, payload: studentId });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
