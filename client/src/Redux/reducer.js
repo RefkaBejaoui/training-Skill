@@ -21,8 +21,8 @@ import {
   REGISTER_RESPONSE_STUDENT,
   SHOW_STUDENT_RESPONSE,
   SHOW_ALL_RESPONSES,
-  // CLEAR_STUDENT_RESPONSE,
-  // CLEAR_STUDENT_SCORE,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
 } from "./actionTypes";
 
 const initialState = {
@@ -34,10 +34,10 @@ const initialState = {
   checkPoint: [],
   score: 0,
   response: [],
+  hashPassword: "",
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    
     case REGISTER_USER:
       return { ...state, user: action.payload.newUser };
     case LOGIN_USER:
@@ -105,6 +105,10 @@ const reducer = (state = initialState, action) => {
       return { ...state, response: action.payload };
     case SHOW_ALL_RESPONSES:
       return { ...state, response: action.payload };
+    case UPDATE_PASSWORD_SUCCESS:
+      return { ...state, user: action.payload };
+    case UPDATE_PASSWORD_FAIL:
+      return { ...state, user: action.payload };
     // case CLEAR_STUDENT_RESPONSE:
     //   return state.filter((response) => response.studentId !== action.payload);
     // case CLEAR_STUDENT_SCORE:

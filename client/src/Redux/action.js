@@ -21,6 +21,8 @@ import {
   REGISTER_RESPONSE_STUDENT,
   SHOW_STUDENT_RESPONSE,
   SHOW_ALL_RESPONSES,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
   // CLEAR_STUDENT_RESPONSE,
   // CLEAR_STUDENT_SCORE,
 } from "./actionTypes";
@@ -74,14 +76,31 @@ export const logOutUser = () => (dispatch) => {
 
 export const updateUser = (userId, newUser) => async (dispatch) => {
   try {
-    console.log("action : starting updateUser");
     const res = await axios.put(`/user/updateUser/${userId}`, newUser);
-    console.log("reeeeeeeee", res.data);
     dispatch({ type: UPDATE_USER, payload: res.data });
   } catch (error) {
     console.error(error);
   }
 };
+
+export const updatePassword =(userId, oldPassword, newPassword) => async (dispatch) => {
+    try {
+      const res = await axios.put(`/user/updateProfilePassword/${userId}`, {
+        oldPassword,
+        newPassword,
+      });
+      dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: res.data });
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: UPDATE_PASSWORD_FAIL,
+        payload: error.response
+          ? error.response.data
+          : { msg: "An error occurred" },
+      });
+      throw error;
+    }
+  };
 
 export const getStudents = () => async (dispatch) => {
   try {
@@ -167,8 +186,7 @@ export const deleteCheckPoint = (checkpointId) => async (dispatch) => {
   }
 };
 
-export const updateCheckpoint =
-  (checkpointId, newCheckpoint) => async (dispatch) => {
+export const updateCheckpoint =(checkpointId, newCheckpoint) => async (dispatch) => {
     try {
       const res = await axios.put(
         `/checkpoint/updateCheckpoint/${checkpointId}`,
@@ -205,10 +223,10 @@ export const showStudentScore = (userName) => async (dispatch) => {
   try {
     const res = await axios.get(`/score/showStudentScore/${userName}`);
     dispatch({ type: SHOW_STUDENT_SCORE, payload: res.data.studentScore });
-    return res.date.studentScore
+    return res.date.studentScore;
   } catch (error) {
     console.error(error);
-    return null
+    return null;
   }
 };
 
@@ -234,10 +252,10 @@ export const showStudentResponse = (userName) => async (dispatch) => {
       type: SHOW_STUDENT_RESPONSE,
       payload: res.data.studentResponse,
     });
-    return res.data.studentResponse
+    return res.data.studentResponse;
   } catch (error) {
     console.error(error);
-    return null
+    return null;
   }
 };
 

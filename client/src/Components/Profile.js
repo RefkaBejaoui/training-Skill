@@ -1,39 +1,36 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../Redux/action";
+import { updatePassword } from "../Redux/action";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
-
 function Profile() {
   const theCurrentUser = useSelector((state) => state.user);
-  const [newUserName, setNewUserName] = useState(theCurrentUser.userName );
-  const [newUserPassword, setNewUserPassword] = useState(theCurrentUser.userPassword);
-  const [currentPasswordInput , setCurrentPasswordInput] = useState("")
+  const [currentPasswordInput, setCurrentPasswordInput] = useState("");
+  const [newUserPassword, setNewUserPassword] = useState("");
   const dispatch = useDispatch();
 
- useEffect(()=>{
-   setNewUserName(theCurrentUser.userName);
-    setNewUserPassword(theCurrentUser.userPassword);
-}, [theCurrentUser])
-
-const validateCurentPassword = ()=> {
-  return currentPasswordInput===theCurrentUser.userPassword;
-}
-
-  const updatingUser = async(e) => {
+  const updatingUser = async (e) => {
     e.preventDefault();
-    if(!validateCurentPassword()){
-      alert("current password is incorrect !!")
+    if (!currentPasswordInput || !newUserPassword) {
+      alert("please enter both the curent and the new passwords");
       return;
     }
-    const updatedUser = {
-      id: theCurrentUser._id,
-      userName: newUserName,
-      userPassword: newUserPassword,
-    };
-    await dispatch(updateUser(theCurrentUser._id, updatedUser));
+    try {
+      await dispatch(
+        updatePassword(
+          theCurrentUser._id,
+          currentPasswordInput,
+          newUserPassword
+        )
+      );
+      alert("Password updated successfully");
+      setCurrentPasswordInput("");
+      setNewUserPassword("");
+    } catch (error) {
+      alert("incorrect current password");
+    }
     window.location.reload();
   };
 
@@ -46,7 +43,7 @@ const validateCurentPassword = ()=> {
           color: "Window",
         }}
       >
-        Update your profile
+        Update your password
       </h2>
       <hr></hr>
       <Form
@@ -56,7 +53,6 @@ const validateCurentPassword = ()=> {
           backgroundColor: "rgb(70, 71, 72)",
           paddingTop: 10,
         }}
-       onSubmit={updatingUser}
       >
         <Form.Group controlId="formUserName">
           <Form.Label
@@ -68,18 +64,10 @@ const validateCurentPassword = ()=> {
             }}
           >
             User name
-            </Form.Label>
-        
-
-        <InputGroup className="mb-3">
-          <Form.Control
-            aria-label="Text input with checkbox"
-            placeholder="name"
-            type="text"
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-          />
-        </InputGroup>
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control value={theCurrentUser.userName} readOnly />
+          </InputGroup>
         </Form.Group>
 
         <Form.Group controlId="formPassword">
@@ -91,19 +79,16 @@ const validateCurentPassword = ()=> {
               color: "#a3cae9",
             }}
           >
-    Current password </Form.Label>
-        <InputGroup className="mb-3">
-          <Form.Control
-            aria-label="Text input with checkbox"
-            type="text"
-            placeholder="current password"
-            value={currentPasswordInput}
-            onChange={(e) => setCurrentPasswordInput(e.target.value)}
-          />
-        </InputGroup>
-</Form.Group>
-
-        <Form.Group controlId="formPassword">
+            Current password{" "}
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="current password"
+              onChange={(e) => setCurrentPasswordInput(e.target.value)}
+            />
+          </InputGroup>
+        </Form.Group>
+        <Form.Group controlId="formNewPassword">
           <Form.Label
             style={{
               fontSize: 20,
@@ -112,21 +97,21 @@ const validateCurentPassword = ()=> {
               color: "#a3cae9",
             }}
           >
-    New password </Form.Label>
-        <InputGroup className="mb-3">
-          <Form.Control
-            aria-label="Text input with checkbox"
-            type="text"
-            placeholder="Password"
-            onChange={(e) => setNewUserPassword(e.target.value)}
-          />
-        </InputGroup>
-</Form.Group>
+            New password{" "}
+          </Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="password"
+              placeholder="New password"
+              onChange={(e) => setNewUserPassword(e.target.value)}
+            />
+          </InputGroup>
+        </Form.Group>
         <hr></hr>
         <Button
           variant="outline-info"
           type="submit"
-          //onClick={updatingUser}
+          onClick={updatingUser}
           style={{ marginBottom: 10 }}
         >
           update
@@ -137,4 +122,3 @@ const validateCurentPassword = ()=> {
 }
 
 export default Profile;
-

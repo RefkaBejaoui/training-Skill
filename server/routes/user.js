@@ -52,8 +52,11 @@ router.put("/updateUser/:id", async (req, res) => {
       { ...req.body },
       { new: true }
     );
-//if (the user. role === student ) {  bcrypt compare }
-    if (theUserToUpdate) {
+
+if (!theUserToUpdate) {
+return res.status(404).send({msg:"User not found"})
+}
+    else {
       const saltRounds = 10;
       const cryptedPassword = await bcrypt.hash(userPassword, saltRounds);
       theUserToUpdate.userPassword = cryptedPassword;
@@ -69,6 +72,32 @@ router.put("/updateUser/:id", async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+  }
+});
+
+router.put("/updateProfilePassword/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ msg: "User not found" });
+    }
+    const isMatch = await bcrypt.compare(oldPassword, user.userPassword);
+    if (!isMatch) {
+      return res.status(401).send({ msg: "Incorrect old password" });
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    user.userPassword = hashedPassword;
+
+    await user.save();
+
+    res.send({ msg: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "An error occurred while updating the password", error });
   }
 });
 
