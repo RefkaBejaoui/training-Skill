@@ -10,15 +10,22 @@ function Login() {
 
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [shake, setShake] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const newUser = (e) => {
     e.preventDefault();
+    if (!userPassword || !userName ) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
     const user = {
       userName: userName,
       userPassword: userPassword,
     };
+    
 dispatch(loginUser(user));
 
 };
@@ -54,7 +61,7 @@ dispatch(loginUser(user));
           onChange={(e) => setUserPassword(e.target.value)}
         />
         <br></br>
-        <Button variant="primary" type="submit" onClick={newUser}>
+        <Button variant="primary" type="submit" onClick={newUser} className={shake ? "shake" : ""}>
           login
         </Button>
       </Form>
